@@ -1,0 +1,11 @@
+---
+title: "Vim 常用命令"
+layout: post
+date: 2018-05-21 19:12
+category: blog
+tag:
+- Other
+---
+
+dd
+删除当前行

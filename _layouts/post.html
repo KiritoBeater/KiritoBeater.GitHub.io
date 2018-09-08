@@ -44,6 +44,31 @@ layout: page
     {% include author.html %}
 {% endif %}
 
+<div id="comments">
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <style>
+        .gitment-container a {
+          border: none;
+        }
+        .comments {
+          margin: 60px 0 0;
+        }
+    </style>
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js" type="text/javascript"></script> 
+    <script type="text/javascript"> 
+        var gitment = new Gitment({
+            id: '{{ page.date }}',
+            owner: 'KiritoBeater',
+            repo: 'KiritoBeater.github.io',
+            oauth: {
+                client_id: 'ca700beee442adf563d4',
+                client_secret: '548f226377b26c2d114dd13c703e228e0ef2de7f',
+            }
+        });
+        gitment.render('comments');
+    </script> 
+</div>
+
 {% if site.disqus.categories contains page.category %}
     {% include disqus.html %}
 {% endif %}
