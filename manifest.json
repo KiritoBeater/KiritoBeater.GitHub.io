@@ -1,0 +1,13 @@
+{
+    "name": "流星企盼|Blog",
+    "short_name": "流星企盼|Blog",
+    "display": "standalone",
+    "background_color": "#fff",
+    "description": "a Blog App",
+    "theme_color": "white",
+    "icons": [{
+      "src": "assets/images/favicon/favicon-196x196.png",
+      "sizes": "196x196",
+      "type": "image/png"
+    }]
+  }

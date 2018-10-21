@@ -18,13 +18,18 @@ layout: compress
     <meta property="og:image" content="{{ site.url }}/{{ site.picture }}">
     <meta property="og:type" content="profile">
 
+    <meta name="theme-color" content="white">
+    <meta name="apple-mobile-web-app-title" content="{{ site.name }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
     {% seo %}
     
     {% include favicon.html %}
 
     <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}">
     <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.url }}{{ "/feed.xml" }}" />
-
+    <link rel="manifest" href="{{ site.url }}{{ "/manifest.json" }}">
+    
     <style>
     {% capture scss_sheet %}{% include style.scss %}{% endcapture %}
     {{ scss_sheet | scssify }}
