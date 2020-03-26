@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    
+
+    <meta charset="utf-8">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name=author content="流星企盼">
+
+    <meta name="theme-color" content="white">
+    <meta name="apple-mobile-web-app-title" content="流星企盼">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Objective-C代码规范 | 流星企盼</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Objective-C代码规范" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Objective-C是一门面向对象的动态编程语言，主要用于编写iOS和Mac应用程序。关于Objective-C的编码规范，苹果和谷歌以及raywenderlich都已经有很好的总结：" />
+<meta property="og:description" content="Objective-C是一门面向对象的动态编程语言，主要用于编写iOS和Mac应用程序。关于Objective-C的编码规范，苹果和谷歌以及raywenderlich都已经有很好的总结：" />
+<link rel="canonical" href="https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" />
+<meta property="og:url" content="https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" />
+<meta property="og:site_name" content="流星企盼" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-05-03T23:07:00+00:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/"},"headline":"Objective-C代码规范","dateModified":"2016-05-03T23:07:00+00:00","datePublished":"2016-05-03T23:07:00+00:00","description":"Objective-C是一门面向对象的动态编程语言，主要用于编写iOS和Mac应用程序。关于Objective-C的编码规范，苹果和谷歌以及raywenderlich都已经有很好的总结：","url":"https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://kiritobeater.github.io/assets/images/favicon/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kiritobeater.github.io/assets/images/favicon/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kiritobeater.github.io/assets/images/favicon/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kiritobeater.github.io/assets/images/favicon/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="https://kiritobeater.github.io/assets/images/favicon/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://kiritobeater.github.io/assets/images/favicon/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="https://kiritobeater.github.io/assets/images/favicon/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://kiritobeater.github.io/assets/images/favicon/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="https://kiritobeater.github.io/assets/images/favicon/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="https://kiritobeater.github.io/assets/images/favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="https://kiritobeater.github.io/assets/images/favicon/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="https://kiritobeater.github.io/assets/images/favicon/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="https://kiritobeater.github.io/assets/images/favicon/favicon-128.png" sizes="128x128" />
+<meta name="application-name" content="&nbsp;"/>
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
+
+
+    <link rel="canonical" href="https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+    <link rel="alternate" type="application/rss+xml" title="" href="https://kiritobeater.github.io/feed.xml" />
+    <link rel="manifest" href="https://kiritobeater.github.io/manifest.json">
+    
+    <style>
+    
+    @charset "UTF-8";
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+/* Document ========================================================================== */
+/** 1. Correct the line height in all browsers. 2. Prevent adjustments of font size after orientation changes in iOS. */
+html { line-height: 1.15; /* 1 */ -webkit-text-size-adjust: 100%; /* 2 */ }
+
+/* Sections ========================================================================== */
+/** Remove the margin in all browsers. */
+body { margin: 0; }
+
+/** Render the `main` element consistently in IE. */
+main { display: block; }
+
+/** Correct the font size and margin on `h1` elements within `section` and `article` contexts in Chrome, Firefox, and Safari. */
+h1 { font-size: 2em; margin: 0.67em 0; }
+
+/* Grouping content ========================================================================== */
+/** 1. Add the correct box sizing in Firefox. 2. Show the overflow in Edge and IE. */
+hr { box-sizing: content-box; /* 1 */ height: 0; /* 1 */ overflow: visible; /* 2 */ }
+
+/** 1. Correct the inheritance and scaling of font size in all browsers. 2. Correct the odd `em` font sizing in all browsers. */
+pre { font-family: monospace, monospace; /* 1 */ font-size: 1em; /* 2 */ }
+
+/* Text-level semantics ========================================================================== */
+/** Remove the gray background on active links in IE 10. */
+a { background-color: transparent; }
+
+/** 1. Remove the bottom border in Chrome 57- 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari. */
+abbr[title] { border-bottom: none; /* 1 */ text-decoration: underline; /* 2 */ text-decoration: underline dotted; /* 2 */ }
+
+/** Add the correct font weight in Chrome, Edge, and Safari. */
+b, strong { font-weight: bolder; }
+
+/** 1. Correct the inheritance and scaling of font size in all browsers. 2. Correct the odd `em` font sizing in all browsers. */
+code, kbd, samp { font-family: monospace, monospace; /* 1 */ font-size: 1em; /* 2 */ }
+
+/** Add the correct font size in all browsers. */
+small { font-size: 80%; }
+
+/** Prevent `sub` and `sup` elements from affecting the line height in all browsers. */
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+
+sub { bottom: -0.25em; }
+
+sup { top: -0.5em; }
+
+/* Embedded content ========================================================================== */
+/** Remove the border on images inside links in IE 10. */
+img { border-style: none; }
+
+/* Forms ========================================================================== */
+/** 1. Change the font styles in all browsers. 2. Remove the margin in Firefox and Safari. */
+button, input, optgroup, select, textarea { font-family: inherit; /* 1 */ font-size: 100%; /* 1 */ line-height: 1.15; /* 1 */ margin: 0; /* 2 */ }
+
+/** Show the overflow in IE. 1. Show the overflow in Edge. */
+button, input { /* 1 */ overflow: visible; }
+
+/** Remove the inheritance of text transform in Edge, Firefox, and IE. 1. Remove the inheritance of text transform in Firefox. */
+button, select { /* 1 */ text-transform: none; }
+
+/** Correct the inability to style clickable types in iOS and Safari. */
+button, [type="button"], [type="reset"], [type="submit"] { -webkit-appearance: button; }
+
+/** Remove the inner border and padding in Firefox. */
+button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner { border-style: none; padding: 0; }
+
+/** Restore the focus styles unset by the previous rule. */
+button:-moz-focusring, [type="button"]:-moz-focusring, [type="reset"]:-moz-focusring, [type="submit"]:-moz-focusring { outline: 1px dotted ButtonText; }
+
+/** Correct the padding in Firefox. */
+fieldset { padding: 0.35em 0.75em 0.625em; }
+
+/** 1. Correct the text wrapping in Edge and IE. 2. Correct the color inheritance from `fieldset` elements in IE. 3. Remove the padding so developers are not caught out when they zero out `fieldset` elements in all browsers. */
+legend { box-sizing: border-box; /* 1 */ color: inherit; /* 2 */ display: table; /* 1 */ max-width: 100%; /* 1 */ padding: 0; /* 3 */ white-space: normal; /* 1 */ }
+
+/** Add the correct vertical alignment in Chrome, Firefox, and Opera. */
+progress { vertical-align: baseline; }
+
+/** Remove the default vertical scrollbar in IE 10+. */
+textarea { overflow: auto; }
+
+/** 1. Add the correct box sizing in IE 10. 2. Remove the padding in IE 10. */
+[type="checkbox"], [type="radio"] { box-sizing: border-box; /* 1 */ padding: 0; /* 2 */ }
+
+/** Correct the cursor style of increment and decrement buttons in Chrome. */
+[type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button { height: auto; }
+
+/** 1. Correct the odd appearance in Chrome and Safari. 2. Correct the outline style in Safari. */
+[type="search"] { -webkit-appearance: textfield; /* 1 */ outline-offset: -2px; /* 2 */ }
+
+/** Remove the inner padding in Chrome and Safari on macOS. */
+[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+
+/** 1. Correct the inability to style clickable types in iOS and Safari. 2. Change font properties to `inherit` in Safari. */
+::-webkit-file-upload-button { -webkit-appearance: button; /* 1 */ font: inherit; /* 2 */ }
+
+/* Interactive ========================================================================== */
+/* Add the correct display in Edge, IE 10+, and Firefox. */
+details { display: block; }
+
+/* Add the correct display in all browsers. */
+summary { display: list-item; }
+
+/* Misc ========================================================================== */
+/** Add the correct display in IE 10+. */
+template { display: none; }
+
+/** Add the correct display in IE 10. */
+[hidden] { display: none; }
+
+/* GitHub style for Pygments syntax highlighter, for use with Jekyll Courtesy of GitHub.com */
+.highlight .c { color: #999988; font-style: italic; }
+.highlight .err { color: #a61717; background-color: #e3d2d2; }
+.highlight .k { font-weight: bold; }
+.highlight .o { font-weight: bold; }
+.highlight .cm { color: #999988; font-style: italic; }
+.highlight .cp { color: #999999; font-weight: bold; }
+.highlight .c1 { color: #999988; font-style: italic; }
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic; }
+.highlight .gd { color: #000000; background-color: #ffdddd; }
+.highlight .gd .x { color: #000000; background-color: #ffaaaa; }
+.highlight .ge { font-style: italic; }
+.highlight .gr { color: #aa0000; }
+.highlight .gh { color: #999999; }
+.highlight .gi { color: #000000; background-color: #ddffdd; }
+.highlight .gi .x { color: #000000; background-color: #aaffaa; }
+.highlight .go { color: #888888; }
+.highlight .gp { color: #555555; }
+.highlight .gs { font-weight: bold; }
+.highlight .gu { color: #800080; font-weight: bold; }
+.highlight .gt { color: #aa0000; }
+.highlight .kc { font-weight: bold; }
+.highlight .kd { font-weight: bold; }
+.highlight .kn { font-weight: bold; }
+.highlight .kp { font-weight: bold; }
+.highlight .kr { font-weight: bold; }
+.highlight .kt { color: #445588; font-weight: bold; }
+.highlight .m { color: #009999; }
+.highlight .s { color: #dd1144; }
+.highlight .n { color: #333333; }
+.highlight .na { color: teal; }
+.highlight .nb { color: #0086b3; }
+.highlight .nc { color: #445588; font-weight: bold; }
+.highlight .no { color: teal; }
+.highlight .ni { color: purple; }
+.highlight .ne { color: #990000; font-weight: bold; }
+.highlight .nf { color: #990000; font-weight: bold; }
+.highlight .nn { color: #555555; }
+.highlight .nt { color: navy; }
+.highlight .nv { color: teal; }
+.highlight .ow { font-weight: bold; }
+.highlight .w { color: #bbbbbb; }
+.highlight .mf { color: #009999; }
+.highlight .mh { color: #009999; }
+.highlight .mi { color: #009999; }
+.highlight .mo { color: #009999; }
+.highlight .sb { color: #dd1144; }
+.highlight .sc { color: #dd1144; }
+.highlight .sd { color: #dd1144; }
+.highlight .s2 { color: #dd1144; }
+.highlight .se { color: #dd1144; }
+.highlight .sh { color: #dd1144; }
+.highlight .si { color: #dd1144; }
+.highlight .sx { color: #dd1144; }
+.highlight .sr { color: #009926; }
+.highlight .s1 { color: #dd1144; }
+.highlight .ss { color: #990073; }
+.highlight .bp { color: #999999; }
+.highlight .vc { color: teal; }
+.highlight .vg { color: teal; }
+.highlight .vi { color: teal; }
+.highlight .il { color: #009999; }
+.highlight .gc { color: #999; background-color: #EAF2F5; }
+
+body, html { font-size: 62.5%; }
+
+body { font: 16px "Helvetica Neue", Helvetica, Arial, sans-serif; color: #666; }
+
+h1, h2, h3, h4 { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #222; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+h1 { font-size: 3rem; letter-spacing: -1px; color: #222; font-weight: 700; }
+
+h2 { font-size: 2.2rem; }
+
+h3 { font-size: 2rem; }
+
+h4 { font-size: 1.6rem; }
+
+a { color: #4b0082; text-decoration: underline; }
+
+p { line-height: 1.7; color: #666; font-weight: 300; margin-bottom: 20px; letter-spacing: 0.4px; }
+@media only screen and (max-width: 400px) { p { letter-spacing: 0.2px; } }
+
+strong { font-weight: 400; color: #000; }
+
+ul li, ol li { line-height: 2.4rem; font-weight: 300; color: #666; }
+
+img, pre, iframe { max-width: 100%; }
+
+img, pre { border-radius: 4px; }
+
+figcaption { position: relative; top: -20px; left: 0; right: 0; margin: 0 auto; width: 100%; text-align: center; font-size: 1.3rem; color: #aaa; font-weight: 300; }
+@media only screen and (max-width: 400px) { figcaption { font-size: 1.2rem; } }
+
+blockquote { padding-left: 15px; border-left: 3px solid #eee; }
+
+hr { border: none; height: 1px; margin: 40px auto; background: #eee; width: 100%; }
+
+figure.highlight { width: 100%; margin: 0; }
+
+code, tt { padding: 1px 0; font-family: "Consolas", Liberation Mono, Menlo, Courier, monospace; font-size: 12px; line-height: 20px; background: #fff; border-radius: 2px; }
+
+pre { box-sizing: border-box; margin: 0 0 1.75em 0; width: 100%; padding: 5px 10px; font-family: "Consolas", Liberation Mono, Menlo, Courier, monospace; font-size: 1.2rem; line-height: 2rem; overflow: auto; background: #fff; border: 1px solid #ededed; border-radius: 2px; }
+
+.wrapper-normal, .wrapper-large { height: 100%; width: 96%; margin: 0 auto; }
+@media only screen and (max-width: 400px) { .wrapper-normal, .wrapper-large { width: 88%; } }
+@media only screen and (min-width: 400px) and (max-width: 1050px) { .wrapper-normal, .wrapper-large { width: 88%; } }
+
+.wrapper-normal { max-width: 560px; }
+
+.wrapper-large { max-width: 810px; }
+
+/* general helpers */
+.text-center { text-align: center; }
+
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+
+.clearfix:after { clear: both; }
+
+/* animations */
+.animated { animation: fade-in-down 0.6s; animation-delay: 0.3s; animation-fill-mode: both; }
+
+@keyframes fade-in-down { 0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); } }
+.home, .blog, .projects { margin-top: 125px; }
+.home > .list, .blog > .list, .projects > .list { border-top: 1px solid #ededed; margin-top: 30px; padding-top: 40px; position: relative; }
+.home > .list:before, .blog > .list:before, .projects > .list:before { display: block; content: " "; width: 7px; height: 7px; border: #ededed 1px solid; position: absolute; top: -5px; left: 50%; margin-left: -5px; background: #FFF; box-shadow: #FFF 0 0 0 5px; border-radius: 3px; }
+
+.home > .list > .item, .blog > .list > .item, .projects > .list > .item { display: block; width: 95%; margin: 0 auto; }
+.home > .list > .item > .url, .blog > .list > .item > .url, .projects > .list > .item > .url { width: 100%; display: block; padding: 20px 0; text-decoration: none; }
+.home > .list > .item > .url > .title, .blog > .list > .item > .url > .title, .projects > .list > .item > .url > .title { margin: 0; width: 75%; font-weight: 500; transition: all ease-in-out 0.2s; }
+.home > .list > .item:hover > .url > .title, .blog > .list > .item:hover > .url > .title, .projects > .list > .item:hover > .url > .title { color: #4b0082; }
+.home > .list aside, .blog > .list aside, .projects > .list aside { position: relative; top: 2px; margin: 0; width: 25%; float: right; font-weight: 300; color: #aaa; text-align: right; transition: all ease-in-out 0.2s; }
+.home > .list .item:hover .url aside, .blog > .list .item:hover .url aside, .projects > .list .item:hover .url aside { color: #666; }
+
+.blog > .list > .item > .url > .title, .projects > .list > .item > .url > .title { display: inline; }
+.blog > .list > .item > .url > .emoji, .projects > .list > .item > .url > .emoji { display: inline; position: relative; top: -4px; margin-right: 10px; }
+
+.page { margin-top: 125px; }
+.page > h1 { text-align: center; margin-bottom: 6rem; }
+
+.about img { width: 50%; margin: 0 auto; display: block; }
+
+.post { margin-top: 125px; }
+.post > .title { text-align: center; margin-bottom: 3rem; }
+.post > .date, .post > .post-tags { color: #aaa; font-weight: 300; font-size: 1.4rem; text-transform: uppercase; text-align: center; display: block; margin-bottom: 6rem; letter-spacing: 1px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+.post > .date { margin-bottom: 2rem; }
+.post > .post-tags > .item { padding: 2px 8px; border-radius: 3px; font-size: 1.1rem; background: #ededed; color: #666; letter-spacing: 1px; margin: 3px 1px; text-decoration: none; display: inline-block; }
+.post > h2, .post > h3, .post > h4 { margin-top: 40px; }
+.post > h2 a, .post > h3 a, .post > h4 a { text-decoration: none; }
+.post > .title-image { max-height: 120px; display: block; margin: 0 auto; }
+.post > .blog-navigation { font-size: 1.4rem; display: block; width: auto; overflow: hidden; }
+.post > .blog-navigation a { display: block; width: 50%; float: left; margin: 1em 0; }
+.post > .blog-navigation .next { text-align: right; }
+
+.tags { margin-top: 125px; }
+.tags > .list { border-top: 1px solid #ededed; margin-top: 30px; padding-top: 40px; position: relative; }
+.tags > .list:before { display: block; content: " "; width: 7px; height: 7px; border: #ededed 1px solid; position: absolute; top: -5px; left: 50%; margin-left: -5px; background: #FFF; box-shadow: #FFF 0 0 0 5px; border-radius: 3px; }
+
+.tags > .list > .item { font-weight: 300; text-transform: uppercase; text-align: center; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; padding: 3px 9px; border-radius: 3px; font-size: 1.3rem; background: #ededed; color: #666; letter-spacing: 1px; margin: 0 0.5rem 1rem; text-decoration: none; display: inline-block; }
+
+.tag-list > .list { padding: 0; }
+.tag-list > .list > .item { display: block; width: 80%; margin: 0 10%; }
+.tag-list > .list > .item > .url { width: 100%; height: 100%; display: block; padding: 20px 0; text-decoration: none; }
+.tag-list > .list > .item > .url > .title { margin: 0; width: 75%; font-weight: 400; transition: all ease-in-out 0.2s; font-size: 1.6rem; }
+.tag-list > .list > .item:hover > .url > .title { color: #4b0082; }
+.tag-list > .list aside { position: relative; top: 2px; margin: 0; width: 25%; float: right; font-weight: 300; color: #aaa; text-align: right; transition: all ease-in-out 0.2s; font-size: 1.6rem; }
+.tag-list > .list .item:hover .url aside { color: #666; }
+
+.author { padding: 3rem 0; border-bottom: 1px solid #ededed; border-top: 1px solid #ededed; max-width: 100%; margin: 4rem auto 0; }
+.author > .toleft > .selfie { width: 90%; border-radius: 100%; }
+.author > .toright > .name, .author > .toright > .bio { width: 60%; display: inline-block; }
+.author > .toright > .name { font-size: 1.5rem; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 500; margin: 6px 0 0; }
+@media only screen and (max-width: 400px) { .author > .toright > .name { width: 100%; display: block; } }
+@media only screen and (min-width: 400px) and (max-width: 1050px) { .author > .toright > .name { width: 100%; display: block; } }
+.author > .toright > .bio { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 300; color: #aaa; font-size: 1.3rem; text-align: justify; line-height: 1.5; margin: 0; }
+@media only screen and (max-width: 400px) { .author > .toright > .bio { width: 100%; display: block; } }
+@media only screen and (min-width: 400px) and (max-width: 1050px) { .author > .toright > .bio { width: 100%; display: block; } }
+.author > .toleft { width: 10%; display: inline-block; }
+@media only screen and (max-width: 400px) { .author > .toleft { width: 20%; } }
+@media only screen and (min-width: 400px) and (max-width: 1050px) { .author > .toleft { width: 20%; } }
+.author > .toright { width: 89%; display: inline-block; vertical-align: top; }
+@media only screen and (max-width: 400px) { .author > .toright { width: 78%; } }
+@media only screen and (min-width: 400px) and (max-width: 1050px) { .author > .toright { width: 78%; } }
+
+.no-disqus { border-bottom: none; padding-bottom: 0; }
+
+.disqus { margin: 0 auto; max-width: 100%; padding: 40px 0; }
+
+.footer-main { border-top: 1px solid #ededed; padding: 40px 0; margin: 40px 0 0; font-size: 1.3rem; color: #aaa; font-weight: 300; text-align: center; position: relative; }
+.footer-main:before { display: block; content: " "; width: 7px; height: 7px; border: #ededed 1px solid; position: absolute; top: -5px; left: 50%; margin-left: -5px; background: #FFF; box-shadow: #FFF 0 0 0 5px; border-radius: 3px; }
+.footer-main > .copyright { padding-left: 10px; }
+.footer-main > .link { display: inline; vertical-align: middle; }
+.footer-main > .link > .icon { width: 12px !important; height: 12px !important; display: inline-block; fill: #aaa !important; transition: ease-in-out all 0.3s; position: relative; top: -2px; margin: 0; left: 2px; }
+.footer-main > .link > .icon:hover { fill: #4b0082 !important; }
+.footer-main > .extra { color: #aaa; margin-top: 0; }
+.footer-main > .extra > .link { color: #222; text-decoration: none; border-bottom: 1px solid transparent; transition: ease-in-out all 0.3s; padding-bottom: 1px; }
+.footer-main > .extra > .link:hover { border-color: #aaa; }
+
+.header-home { display: block; margin: 0 auto; text-align: center; position: relative; z-index: 99; }
+.header-home > .link > .selfie { width: 125px; height: 125px; margin-bottom: 25px; border-radius: 100%; transition: all 0.2s; opacity: 1; }
+.header-home > .link > .selfie:hover { box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.18), 0 0px 12px 0 rgba(0, 0, 0, 0.15); opacity: 0.8; }
+.header-home > .title { font-size: 4rem; margin: 0 0 13px; }
+.header-home > .description { font-size: 1.85rem; font-weight: 300; font-style: normal; color: #aaa; width: 70%; margin: 0 auto 30px; }
+.header-home > .description a { font-weight: 200; }
+
+.nav > .list, .nav-home > .list { list-style: none; margin: 0; padding: 0 13px 0; }
+.nav > .list > .item, .nav-home > .list > .item { display: inline-block; }
+.nav > .list > .item > .link, .nav-home > .list > .item > .link { display: inline-block; font-weight: 300; font-size: 1.4rem; padding: 20px 10px; text-decoration: none; }
+
+.nav { position: absolute; right: 0; top: 0; }
+.nav > .list { padding: 0 13px 0; }
+.nav > .list > .item > .link { font-size: 1.4rem; padding: 20px 10px; }
+
+.nav-home { margin-top: 40px; text-align: center; }
+.nav-home > .list { padding: 0; }
+.nav-home > .list > .item > .link { font-size: 2rem; padding: 7px 15px; margin: 0; border-radius: 4%; transition: all 0.4s ease-in-out; }
+.nav-home > .list > .item > .link:hover { color: #666; }
+
+.evidence { background-image: linear-gradient(to bottom, rgba(39, 243, 106, 0.15), rgba(39, 243, 106, 0.15)); color: #222; }
+
+.star > .url > .title { width: auto !important; display: inline; background-image: linear-gradient(rgba(39, 243, 106, 0.15), rgba(39, 243, 106, 0.15)); }
+
+.twitter-tweet { margin: 10px auto; }
+
+.icon { display: inline-block; width: 25px; height: 25px; fill: #000; text-align: center; color: #000; margin: 7px auto; vertical-align: middle; }
+
+.caption { position: relative; top: 1rem; left: 0; right: 0; margin: 0 auto; width: 100%; text-align: center; font-size: 1.3rem; }
+
+.bigger-image { min-width: 130%; margin: 5rem 0 5rem -15%; }
+@media only screen and (max-width: 400px) { .bigger-image { min-width: 114%; margin: 2rem 0 2rem -7%; } }
+@media only screen and (min-width: 400px) and (max-width: 1050px) { .bigger-image { min-width: 114%; margin: 2rem 0 2rem -7%; } }
+
+.breaker { height: 1px; margin: 6rem auto; width: 100%; }
+.breaker:before { content: "• • •"; width: 100%; text-align: center; display: block; color: #aaa; letter-spacing: 4px; position: relative; top: -8px; }
+
+.lost-container { text-align: center; }
+
+.pagination { width: 95%; margin: 3rem auto 0; text-align: center; }
+.pagination > .page_number { display: inline-block; font-size: 1.3rem; }
+.pagination > .previous, .pagination > .next { display: inline-block; font-size: 1.8rem; position: relative; top: 1px; padding: 1px 9px; }
+.pagination > .hidden { visibility: hidden; }
+
+.related { margin: 10rem 0 0rem; }
+
+.share { float: right; width: 40%; display: inline; text-align: right; position: relative; top: -10px; }
+@media only screen and (max-width: 400px) { .share { width: 100%; display: block; top: 0; text-align: left; float: none; margin-top: 5px; } }
+@media only screen and (min-width: 400px) and (max-width: 1050px) { .share { width: 100%; display: block; top: 0; text-align: left; float: none; margin-top: 5px; } }
+.share > .twitter, .share > .facebook, .share > .linkedin, .share > .reddit { display: inline-block; vertical-align: middle; font-size: 13px; font-weight: 700; color: #fff; padding: 6px 10px; border-radius: 3px; margin-left: 5px; text-decoration: none; }
+@media only screen and (max-width: 400px) { .share > .twitter, .share > .facebook, .share > .linkedin, .share > .reddit { margin: 0 5px 10px 0; } }
+@media only screen and (min-width: 400px) and (max-width: 1050px) { .share > .twitter, .share > .facebook, .share > .linkedin, .share > .reddit { margin: 0 5px 10px 0; } }
+.share > .twitter span, .share > .facebook span, .share > .linkedin span, .share > .reddit span { vertical-align: middle; }
+.share > .twitter { background: #4fafed; }
+.share > .facebook { background: #4361b3; }
+.share > .linkedin { background: #0077b5; }
+.share > .reddit { background: #ff4500; }
+.share svg { width: 16px; height: 16px; margin: 3px; fill: #fff; }
+
+@media only screen and (min-width: 780px) { .side-by-side { width: 130%; margin: 6rem 0 6rem -15%; } }
+@media only screen and (max-width: 780px) { .side-by-side { width: 100%; margin: 4rem 0; } }
+.side-by-side > .toleft, .side-by-side > .toright { display: inline-block; width: 47.5%; }
+@media only screen and (max-width: 780px) { .side-by-side > .toleft img, .side-by-side > .toright img { text-align: center; display: block; margin: 0 auto; } }
+@media only screen and (min-width: 780px) { .side-by-side > .toleft { margin-right: 2%; } }
+@media only screen and (max-width: 780px) { .side-by-side > .toleft { width: 100%; margin: 0 0 4rem 0; } }
+@media only screen and (min-width: 780px) { .side-by-side > .toright { margin-left: 2%; vertical-align: top; } }
+@media only screen and (max-width: 780px) { .side-by-side > .toright { width: 100%; margin: 0 0 4rem 0; } }
+.side-by-side > .toleft > p, .side-by-side > .toright > p { margin: 0 0 4rem 0; }
+@media only screen and (max-width: 780px) { .side-by-side > .toleft > p, .side-by-side > .toright > p { margin: 0; } }
+
+.social-links { margin-top: 20px; margin-left: 15px; }
+.social-links > .link { margin: 0; text-decoration: none; position: relative; display: inline-block; height: 35px; width: 35px; }
+.social-links > .link:hover > .icon { fill: #4b0082; }
+.social-links > .link:hover:before { opacity: 1; display: inline-block; transform: translate3d(0, 0, 0); white-space: nowrap; }
+.social-links > .link:before { content: attr(data-title); display: none; position: absolute; bottom: -34px; left: -6px; margin: 0 auto; font-size: 13px; padding: 3px 10px; background: #222; color: #fff; border-radius: 2px; height: 22px; line-height: 22px; opacity: 0; transition: opacity 150ms linear, transform 150ms linear, -webkit-transform 150ms linear; transform: translate3d(0, -8px, 0); z-index: 99; }
+.social-links > .link:after { content: ""; position: absolute; top: 35px; left: 13px; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 6px solid #222; opacity: 0; transition: opacity 150ms linear, transform 150ms linear, -webkit-transform 150ms linear; transform: translate3d(0, -8px, 0); z-index: 100; }
+.social-links > .link:hover:after { opacity: 1; transform: translate3d(0, 0, 0); }
+.social-links > .icon { transition: all ease-in-out 0.2s; }
+
+.spoiler { position: relative; }
+.spoiler:before { content: ""; background-color: #fafae0; position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 50; }
+.spoiler:hover:before { display: none; }
+
+    </style>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b1215246442211044a743c202d495922";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+<body>
+
+    <div class="wrapper-large">
+        
+            <div class="post">
+        
+
+            
+
+
+
+<nav class="nav">
+    <ul class="list">
+        
+            <li class="item">
+                <a class="link" href="https://kiritobeater.github.io/">主页</a>
+            </li>
+        
+
+        
+            
+                <li class="item">
+                    <a class="link" href="https://kiritobeater.github.io/blog">博客</a>
+                </li>
+            
+        
+
+        
+            
+                <li class="item">
+                    <a class="link" href="https://kiritobeater.github.io/projects">项目</a>
+                </li>
+            
+        
+
+        
+            
+                <li class="item">
+                    <a class="link" href="https://kiritobeater.github.io/about">关于</a>
+                </li>
+            
+        
+
+        
+    </ul>
+</nav>
+
+
+
+
+
+<h1 class="title">Objective-C代码规范</h1>
+
+<span class="date">
+    <time datetime="03-05-2016">Tuesday. May 03, 2016</time>
+     - <span class="reading-time" title="Estimated read time">
+    
+
+    
+        10 mins
+    
+</span>
+
+</span>
+
+
+    <div class="post-tags">
+        
+            <a class="item" href="https://kiritobeater.github.io/tags/#objective-c">Objective-C</a>
+        
+    </div>
+
+
+<p>Objective-C是一门面向对象的动态编程语言，主要用于编写iOS和Mac应用程序。关于Objective-C的编码规范，苹果和谷歌以及raywenderlich都已经有很好的总结：</p>
+
+<ul>
+  <li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html">Apple Coding Guidelines for Cocoa</a></li>
+  <li><a href="https://google-styleguide.googlecode.com/svn/trunk/objcguide.xml?showone=Line_Length#Line_Length">Google Objective-C Style Guide</a></li>
+  <li><a href="https://github.com/raywenderlich/objective-c-style-guide#language">The official raywenderlich.com Objective-C style guide</a></li>
+</ul>
+
+<p>##语言</p>
+
+<p>应该使用<strong>US英语</strong>。</p>
+
+<p>推荐：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">UIColor</span> <span class="o">*</span><span class="n">myColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">whiteColor</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>不推荐：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">UIColor</span> <span class="o">*</span><span class="n">myColour</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">whiteColor</span><span class="p">];</span>
+<span class="n">UIColor</span> <span class="o">*</span><span class="n">yanse</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">whiteColor</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>##代码组织</p>
+
+<p>在函数分组和protocol/delegate实现中使用<code class="language-plaintext highlighter-rouge">#pragma mark -</code>来分类方法，要遵循以下一般结构：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma mark - 声明周期
+</span><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="p">{}</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span> <span class="p">{}</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{}</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillAppear</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">animated</span> <span class="p">{}</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">didReceiveMemoryWarning</span> <span class="p">{}</span>
+
+<span class="cp">#pragma mark - IBActions
+</span><span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">submitData</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{}</span>
+
+<span class="cp">#pragma mark - UITextFieldDelegate
+#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDelegate
+</span>
+<span class="cp">##pragma mark - 获取网络数据
+</span></code></pre></div></div>
+
+<p>##代码格式</p>
+
+<p>###使用空格而不是制表符Tab</p>
+
+<p>不要在工程里使用Tab键，使用空格来进行缩进。在<code class="language-plaintext highlighter-rouge">Xcode &gt; Preferences &gt; Text Editing</code>将Tab和自动缩进都设置为<strong>4</strong>个空格。</p>
+
+<p>###函数的书写</p>
+
+<p>一个典型的Objective-C函数应该是这样的：</p>
+
+<pre><code class="language-objective-c">- (void)writeVideoFrameWithData:(NSData *)frameData timeStamp:(int)timeStamp {
+    ...
+}
+</code></pre>
+
+<p>在<code class="language-plaintext highlighter-rouge">-</code>和<code class="language-plaintext highlighter-rouge">(void)</code>之间应该有一个空格，第一个大括号<code class="language-plaintext highlighter-rouge">{</code>的位置在函数所在行的末尾，同样应该有一个空格。</p>
+
+<p>如果一个函数有特别多的参数或者名称很长，应该将其按照<code class="language-plaintext highlighter-rouge">:</code>来对齐分行显示：</p>
+
+<pre><code class="language-objective-c">- (id)initWithModel:(IPCModle)model
+       ConnectType:(IPCConnectType)connectType
+        Resolution:(IPCResolution)resolution
+          AuthName:(NSString *)authName
+          Password:(NSString *)password
+               MAC:(NSString *)mac
+              AzIp:(NSString *)az_ip
+             AzDns:(NSString *)az_dns
+             Token:(NSString *)token
+             Email:(NSString *)email
+          Delegate:(id&lt;IPCConnectHandlerDelegate&gt;)delegate;
+</code></pre>
+
+<p>在分行时，如果第一段名称过短，后续名称可以以Tab的长度（4个空格）为单位进行缩进：</p>
+
+<pre><code class="language-objective-c">- (void)short:(GTMFoo *)theFoo
+        longKeyword:(NSRect)theRect
+  evenLongerKeyword:(float)theInterval
+              error:(NSError **)theError {
+    ...
+}
+</code></pre>
+<p>###函数调用</p>
+
+<p>函数调用的格式和书写差不多，可以按照函数的长短来选择写在一行或者分成多行：</p>
+
+<pre><code class="language-objective-c">//写在一行
+[myObject doFooWith:arg1 name:arg2 error:arg3];
+
+//分行写，按照':'对齐
+[myObject doFooWith:arg1
+               name:arg2
+              error:arg3];
+
+//第一段名称过短的话后续可以进行缩进
+[myObj short:arg1
+          longKeyword:arg2
+    evenLongerKeyword:arg3
+                error:arg4];
+</code></pre>
+
+<p>不推荐：</p>
+
+<pre><code class="language-objective-c">//错误，要么写在一行，要么全部分行
+[myObject doFooWith:arg1 name:arg2
+              error:arg3];
+[myObject doFooWith:arg1
+               name:arg2 error:arg3];
+
+//错误，按照':'来对齐，而不是关键字
+[myObject doFooWith:arg1
+          name:arg2
+          error:arg3];
+</code></pre>
+
+<p>###Block</p>
+
+<p>根据block的长度，有不同的书写规则：</p>
+
+<ul>
+  <li>较短的block可以写在一行内。</li>
+  <li>如果分行显示的话，block的右括号<code class="language-plaintext highlighter-rouge">}</code>应该和调用block那行代码的第一个非空字符对齐。</li>
+  <li>block内的代码采用<strong>4个空格</strong>的缩进。</li>
+  <li>如果block过于庞大，应该单独声明成一个变量来使用。</li>
+  <li><code class="language-plaintext highlighter-rouge">^</code>和<code class="language-plaintext highlighter-rouge">(</code>之间，<code class="language-plaintext highlighter-rouge">^</code>和<code class="language-plaintext highlighter-rouge">{</code>之间都没有空格，参数列表的右括号<code class="language-plaintext highlighter-rouge">)</code>和<code class="language-plaintext highlighter-rouge">{</code>之间有一个空格。</li>
+</ul>
+
+<pre><code class="language-objective-c">//较短的block写在一行内
+[operation setCompletionBlock:^{ [self onOperationDone]; }];
+
+//分行书写的block，内部使用4空格缩进
+[operation setCompletionBlock:^{
+    [self.delegate newDataAvailable];
+}];
+
+//使用C语言API调用的block遵循同样的书写规则
+dispatch_async(_fileIOQueue, ^{
+    NSString* path = [self sessionFilePath];
+    if (path) {
+      // ...
+    }
+});
+
+//较长的block关键字可以缩进后在新行书写，注意block的右括号'}'和调用block那行代码的第一个非空字符对齐
+[[SessionService sharedService]  
+	loadWindowWithCompletionBlock:^(SessionWindow *window) {
+		if (window) {
+			[self windowDidLoad:window];
+		} else {
+			[self errorLoadingWindow];
+		}
+	}];
+
+//较长的block参数列表同样可以缩进后在新行书写
+[[SessionService sharedService]
+	loadWindowWithCompletionBlock:
+		^(SessionWindow *window) {
+			if (window) {
+				[self windowDidLoad:window];
+			} else {
+				[self errorLoadingWindow];
+			}
+		}];
+
+//庞大的block应该单独定义成变量使用
+void (^largeBlock)(void) = ^{
+    // ...
+};
+[_operationQueue addOperationWithBlock:largeBlock];
+
+//在一个调用中使用多个block，注意到他们不是像函数那样通过':'对齐的，而是同时进行了4个空格的缩进
+[myObject doSomethingWith:arg1
+    firstBlock:^(Foo *a) {
+        // ...
+    }
+    secondBlock:^(Bar *b) {
+        // ...
+    }];
+</code></pre>
+
+<p>###数据结构的语法糖</p>
+
+<p>应该使用可读性更好的语法糖来构造<code class="language-plaintext highlighter-rouge">NSArray</code>，<code class="language-plaintext highlighter-rouge">NSDictionary</code>等数据结构，避免使用冗长的<code class="language-plaintext highlighter-rouge">alloc</code>,<code class="language-plaintext highlighter-rouge">init</code>方法。</p>
+
+<p>如果构造代码写在一行，需要在括号两端留有一个空格，使得被构造的元素于与构造语法区分开来：</p>
+
+<pre><code class="language-objective-c">//正确，在语法糖的"[]"或者"{}"两端留有空格
+NSArray *array = @[ [foo description], @"Another String", [bar description] ];
+NSDictionary *dict = @{ NSForegroundColorAttributeName : [NSColor redColor] };
+
+//不正确，不留有空格降低了可读性
+NSArray* array = @[[foo description], [bar description]];
+NSDictionary* dict = @{NSForegroundColorAttributeName: [NSColor redColor]};
+</code></pre>
+
+<p>如果构造代码不写在一行内，构造元素需要使用<strong>两个空格</strong>来进行缩进，右括号<code class="language-plaintext highlighter-rouge">]</code>或者<code class="language-plaintext highlighter-rouge">}</code>写在新的一行，并且与调用语法糖那行代码的第一个非空字符对齐：</p>
+
+<pre><code class="language-objective-c">NSArray *array = @[
+  @"This",
+  @"is",
+  @"an",
+  @"array"
+];
+
+NSDictionary *dictionary = @{
+  NSFontAttributeName : [NSFont fontWithName:@"Helvetica-Bold" size:12],
+  NSForegroundColorAttributeName : fontColor
+};
+</code></pre>
+
+<p>构造字典时，字典的Key和Value与中间的冒号<code class="language-plaintext highlighter-rouge">:</code>都要留有一个空格，多行书写时，也可以将Value对齐：</p>
+
+<pre><code class="language-objective-c">//正确，冒号':'前后留有一个空格
+NSDictionary *option1 = @{
+  NSFontAttributeName : [NSFont fontWithName:@"Helvetica-Bold" size:12],
+  NSForegroundColorAttributeName : fontColor
+};
+
+//正确，按照Value来对齐
+NSDictionary *option2 = @{
+  NSFontAttributeName :            [NSFont fontWithName:@"Arial" size:12],
+  NSForegroundColorAttributeName : fontColor
+};
+
+//错误，冒号前应该有一个空格
+NSDictionary *wrong = @{
+  AKey:       @"b",
+  BLongerKey: @"c",
+};
+
+//错误，每一个元素要么单独成为一行，要么全部写在一行内
+NSDictionary *alsoWrong= @{ AKey : @"a",
+                            BLongerKey : @"b" };
+
+//错误，在冒号前只能有一个空格，冒号后才可以考虑按照Value对齐
+NSDictionary *stillWrong = @{
+  AKey       : @"b",
+  BLongerKey : @"c",
+};
+</code></pre>
+
+<p>##命名规范</p>
+
+<p>###基本原则</p>
+
+<ul>
+  <li>仿照 Cocoa 风格来，使用长命名风格。</li>
+  <li>变量命名推荐的命名语素顺序是：最开头是命名空间简写，然后越重要、区别度越大的语素越要往前放。经典的结构是：作用范围+限定修饰+类型。</li>
+</ul>
+
+<p>####清晰</p>
+
+<p>命名应该尽可能的清晰和简洁，但在Objective-C中，<strong>清晰比简洁更重要</strong>。由于Xcode强大的自动补全功能，我们不必担心名称过长的问题。</p>
+
+<pre><code class="language-objective-c">//清晰
+insertObject:atIndex:
+
+//不清晰，insert的对象类型和at的位置属性没有说明
+insert:at:
+
+//推荐：
+UIButton *settingsButton;
+
+//不推荐：
+UIButton *setBut;
+
+//清晰
+removeObjectAtIndex:
+
+//不清晰，remove的对象类型没有说明，参数的作用没有说明
+remove:
+</code></pre>
+
+<p>不要使用单词的简写，拼写出完整的单词：</p>
+
+<pre><code class="language-objective-c">//清晰
+destinationSelection
+setBackgroundColor:
+
+//不清晰，不要使用简写
+destSel
+setBkgdColor:
+</code></pre>
+<p>然而，有部分单词简写在Objective-C编码过程中是非常常用的，以至于成为了一种规范，这些简写可以在代码中直接使用，下面列举了部分：</p>
+
+<pre><code class="language-objective-c">alloc   == Allocate					max    == Maximum
+alt     == Alternate				min    == Minimum
+app     == Application				msg    == Message
+calc    == Calculate				nib    == Interface Builder archive
+dealloc == Deallocate				pboard == Pasteboard
+func    == Function					rect   == Rectangle
+horiz   == Horizontal				Rep    == Representation (used in class name such as NSBitmapImageRep).
+info    == Information				temp   == Temporary
+init    == Initialize				vert   == Vertical
+int     == Integer
+</code></pre>
+
+<p>命名方法或者函数时要避免歧义</p>
+
+<pre><code class="language-objective-c">//有歧义，是返回sendPort还是send一个Port？
+sendPort
+
+//有歧义，是返回一个名字属性的值还是display一个name的动作？
+displayName
+</code></pre>
+
+<p>####一致性</p>
+
+<p>整个工程的命名风格要保持一致性，最好和苹果SDK的代码保持统一。不同类中完成相似功能的方法应该叫一样的名字，比如我们总是用<code class="language-plaintext highlighter-rouge">count</code>来返回集合的个数，不能在A类中使用<code class="language-plaintext highlighter-rouge">count</code>而在B类中使用<code class="language-plaintext highlighter-rouge">getNumber</code>。</p>
+
+<p>###使用前缀（命名空间）</p>
+
+<p>如果代码需要打包成Framework给别的工程使用，或者工程项目非常庞大，需要拆分成不同的模块，使用命名前缀是非常有用的。</p>
+
+<ul>
+  <li>
+    <p>前缀由大写的字母缩写组成，比如Cocoa中<code class="language-plaintext highlighter-rouge">NS</code>前缀代表Founation框架中的类，<code class="language-plaintext highlighter-rouge">IB</code>则代表Interface Builder框架。</p>
+  </li>
+  <li>
+    <p>可以在为类、协议、函数、常量以及typedef宏命名的时候使用前缀，但注意<strong>不要</strong>为成员变量或者方法使用前缀，因为他们本身就包含在类的命名空间内。</p>
+  </li>
+  <li>
+    <p>命名前缀的时候不要和苹果SDK框架冲突。</p>
+  </li>
+</ul>
+
+<p>###命名类和协议（Class&amp;Protocol）</p>
+
+<p>类名以大写字母开头，应该包含一个<em>名词</em>来表示它代表的对象类型，同时可以加上必要的前缀，比如<code class="language-plaintext highlighter-rouge">NSString</code>, <code class="language-plaintext highlighter-rouge">NSDate</code>, <code class="language-plaintext highlighter-rouge">NSScanner</code>, <code class="language-plaintext highlighter-rouge">NSApplication</code>等等。</p>
+
+<p>而协议名称应该清晰地表示它所执行的行为，而且要和类名区别开来，所以通常使用<code class="language-plaintext highlighter-rouge">ing</code>词尾来命名一个协议，比如<code class="language-plaintext highlighter-rouge">NSCopying</code>,<code class="language-plaintext highlighter-rouge">NSLocking</code>。</p>
+
+<p>有些协议本身包含了很多不相关的功能，主要用来为某一特定类服务，这时候可以直接用类名来命名这个协议，比如<code class="language-plaintext highlighter-rouge">NSObject</code>协议，它包含了id对象在生存周期内的一系列方法。</p>
+
+<p>###命名头文件（Headers）</p>
+
+<p>源码的头文件名应该清晰地暗示它的功能和包含的内容：</p>
+
+<ul>
+  <li>
+    <p>如果头文件内只定义了单个类或者协议，直接用类名或者协议名来命名头文件，比如<code class="language-plaintext highlighter-rouge">NSLocale.h</code>定义了<code class="language-plaintext highlighter-rouge">NSLocale</code>类。</p>
+  </li>
+  <li>
+    <p>如果头文件内定义了一系列的类、协议、类别，使用其中最主要的类名来命名头文件，比如<code class="language-plaintext highlighter-rouge">NSString.h</code>定义了<code class="language-plaintext highlighter-rouge">NSString</code>和<code class="language-plaintext highlighter-rouge">NSMutableString</code>。</p>
+  </li>
+  <li>
+    <p>每一个Framework都应该有一个和框架同名的头文件，包含了框架中所有公共类头文件的引用，比如<code class="language-plaintext highlighter-rouge">Foundation.h</code></p>
+  </li>
+  <li>
+    <p>Framework中有时候会实现在别的框架中类的类别扩展，这样的文件通常使用<code class="language-plaintext highlighter-rouge">被扩展的框架名</code>+<code class="language-plaintext highlighter-rouge">Additions</code>的方式来命名，比如<code class="language-plaintext highlighter-rouge">NSBundleAdditions.h</code>。</p>
+  </li>
+</ul>
+
+<p>###命名方法（Methods）</p>
+
+<p>Objective-C的方法名通常都比较长，这是为了让程序有更好地可读性，按苹果的说法<em>“好的方法名应当可以以一个句子的形式朗读出来”</em>。</p>
+
+<p>方法一般以小写字母打头，每一个后续的单词首字母大写，方法名中不应该有标点符号（<em>包括下划线</em>），有两个例外：</p>
+
+<ul>
+  <li>可以用一些通用的大写字母缩写打头方法，比如<code class="language-plaintext highlighter-rouge">PDF</code>,<code class="language-plaintext highlighter-rouge">TIFF</code>等。</li>
+  <li>可以用带下划线的前缀来命名私有方法或者类别中的方法。</li>
+</ul>
+
+<p>如果方法表示让对象执行一个动作，使用动词打头来命名，注意不要使用<code class="language-plaintext highlighter-rouge">do</code>，<code class="language-plaintext highlighter-rouge">does</code>这种多余的关键字，动词本身的暗示就足够了：</p>
+
+<pre><code class="language-objective-c">//动词打头的方法表示让对象执行一个动作
+- (void)invokeWithTarget:(id)target;
+- (void)selectTabViewItem:(NSTabViewItem *)tabViewItem;
+</code></pre>
+
+<p>如果方法是为了获取对象的一个属性值，直接用属性名称来命名这个方法，注意不要添加<code class="language-plaintext highlighter-rouge">get</code>或者其他的动词前缀：</p>
+
+<pre><code class="language-objective-c">//正确，使用属性名来命名方法
+- (NSSize)cellSize;
+
+//错误，添加了多余的动词前缀
+- (NSSize)calcCellSize;
+- (NSSize)getCellSize;
+</code></pre>
+
+<p>对于有多个参数的方法，务必在每一个参数前都添加关键词，关键词应当清晰说明参数的作用：</p>
+
+<pre><code class="language-objective-c">//正确，保证每个参数都有关键词修饰
+- (void)sendAction:(SEL)aSelector toObject:(id)anObject forAllCells:(BOOL)flag;
+
+//错误，遗漏关键词
+- (void)sendAction:(SEL)aSelector :(id)anObject :(BOOL)flag;
+
+//正确
+- (id)viewWithTag:(NSInteger)aTag;
+
+//错误，关键词的作用不清晰
+- (id)taggedView:(int)aTag;
+</code></pre>
+
+<p>不要用<code class="language-plaintext highlighter-rouge">and</code>来连接两个参数，通常<code class="language-plaintext highlighter-rouge">and</code>用来表示方法执行了两个相对独立的操作（<em>从设计上来说，这时候应该拆分成两个独立的方法</em>）：</p>
+
+<pre><code class="language-objective-c">//错误，不要使用"and"来连接参数
+- (int)runModalForDirectory:(NSString *)path andFile:(NSString *)name andTypes:(NSArray *)fileTypes;
+
+//正确，使用"and"来表示两个相对独立的操作
+- (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;
+</code></pre>
+<p>方法的参数命名也有一些需要注意的地方:</p>
+<ul>
+  <li>和方法名类似，参数的第一个字母小写，后面的每一个单词首字母大写</li>
+  <li>不要再方法名中使用类似<code class="language-plaintext highlighter-rouge">pointer</code>,<code class="language-plaintext highlighter-rouge">ptr</code>这样的字眼去表示指针，参数本身的类型足以说明</li>
+  <li>不要使用只有一两个字母的参数名</li>
+  <li>不要使用简写，拼出完整的单词</li>
+</ul>
+
+<p>下面列举了一些常用参数名：</p>
+
+<pre><code class="language-objective-c">...action:(SEL)aSelector
+...alignment:(int)mode
+...atIndex:(int)index
+...content:(NSRect)aRect
+...doubleValue:(double)aDouble
+...floatValue:(float)aFloat
+...font:(NSFont *)fontObj
+...frame:(NSRect)frameRect
+...intValue:(int)anInt
+...keyEquivalent:(NSString *)charCode
+...length:(int)numBytes
+...point:(NSPoint)aPoint
+...stringValue:(NSString *)aString
+...tag:(int)anInt
+...target:(id)anObject
+...title:(NSString *)aString
+</code></pre>
+
+<p>以 <code class="language-plaintext highlighter-rouge">alloc</code>、<code class="language-plaintext highlighter-rouge">copy</code>、<code class="language-plaintext highlighter-rouge">init</code>、<code class="language-plaintext highlighter-rouge">mutableCopy</code>、<code class="language-plaintext highlighter-rouge">new</code> 开头的方法要注意，它们会改变ARC的行为。</p>
+
+<p>以 <code class="language-plaintext highlighter-rouge">get</code>、<code class="language-plaintext highlighter-rouge">set</code> 开头的方法有特殊的意义，不要随意定义。
+<code class="language-plaintext highlighter-rouge">set</code> 是属性默认的设置方法，如果函数不是为了设置类成员，则不要用 <code class="language-plaintext highlighter-rouge">set</code> 开头，可用 <code class="language-plaintext highlighter-rouge">setup</code> 替代。
+<code class="language-plaintext highlighter-rouge">get</code> 和属性方法无关，但在 Cocoa 中，其标准行为是通过引用传值，而不是直接返回结果的。欲获取变量，直接以变量名为名，如：<code class="language-plaintext highlighter-rouge">userInfomation</code>，而不是 <code class="language-plaintext highlighter-rouge">getUserInfomation</code>。</p>
+
+<p>###存取方法（Accessor Methods）</p>
+
+<p>存取方法是指用来获取和设置类属性值的方法，属性的不同类型，对应着不同的存取方法规范：</p>
+
+<pre><code class="language-objective-c">//属性是一个名词时的存取方法范式
+- (type)noun;
+- (void)setNoun:(type)aNoun;
+//例子
+- (NSString *)title;
+- (void)setTitle:(NSString *)aTitle;
+
+//属性是一个形容词时存取方法的范式
+- (BOOL)isAdjective;
+- (void)setAdjective:(BOOL)flag;
+//例子
+- (BOOL)isEditable;
+- (void)setEditable:(BOOL)flag;
+
+//属性是一个动词时存取方法的范式
+- (BOOL)verbObject;
+- (void)setVerbObject:(BOOL)flag;
+//例子
+- (BOOL)showsAlpha;
+- (void)setShowsAlpha:(BOOL)flag;
+</code></pre>
+
+<p>命名存取方法时不要将动词转化为被动形式来使用：</p>
+
+<pre><code class="language-objective-c">//正确
+- (void)setAcceptsGlyphInfo:(BOOL)flag;
+- (BOOL)acceptsGlyphInfo;
+
+//错误，不要使用动词的被动形式
+
+- (void)setGlyphInfoAccepted:(BOOL)flag;
+- (BOOL)glyphInfoAccepted;
+</code></pre>
+
+<p>可以使用<code class="language-plaintext highlighter-rouge">can</code>,<code class="language-plaintext highlighter-rouge">should</code>,<code class="language-plaintext highlighter-rouge">will</code>等词来协助表达存取方法的意思，但不要使用<code class="language-plaintext highlighter-rouge">do</code>,和<code class="language-plaintext highlighter-rouge">does</code>：</p>
+
+<pre><code class="language-objective-c">//正确
+- (void)setCanHide:(BOOL)flag;
+- (BOOL)canHide;
+- (void)setShouldCloseDocument:(BOOL)flag;
+- (BOOL)shouldCloseDocument;
+
+//错误，不要使用"do"或者"does"
+- (void)setDoesAcceptGlyphInfo:(BOOL)flag;
+- (BOOL)doesAcceptGlyphInfo;
+</code></pre>
+
+<p>为什么Objective-C中不适用<code class="language-plaintext highlighter-rouge">get</code>前缀来表示属性获取方法？因为<code class="language-plaintext highlighter-rouge">get</code>在Objective-C中通常只用来表示从函数指针返回值的函数：</p>
+
+<pre><code class="language-objective-c">//三个参数都是作为函数的返回值来使用的，这样的函数名可以使用"get"前缀
+- (void)getLineDash:(float *)pattern count:(int *)count phase:(float *)phase;
+</code></pre>
+
+<p>###命名代理（Delegate）</p>
+
+<p>当特定的事件发生时，对象会触发它注册的委托方法。委托是Objective-C中常用的传递消息的方式。委托有它固定的命名范式。</p>
+
+<p>一个委托方法的第一个参数是触发它的对象，第一个关键词是触发对象的类名，除非委托方法只有一个名为<code class="language-plaintext highlighter-rouge">sender</code>的参数：</p>
+
+<pre><code class="language-objective-c">//第一个关键词为触发委托的类名
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row;
+- (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename;
+
+//当只有一个"sender"参数时可以省略类名
+- (BOOL)applicationOpenUntitledFile:(NSApplication *)sender;
+</code></pre>
+
+<p>根据委托方法触发的时机和目的，使用<code class="language-plaintext highlighter-rouge">should</code>,<code class="language-plaintext highlighter-rouge">will</code>,<code class="language-plaintext highlighter-rouge">did</code>等关键词</p>
+
+<pre><code class="language-objective-c">- (void)browserDidScroll:(NSBrowser *)sender;
+
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window;、
+
+- (BOOL)windowShouldClose:(id)sender;
+</code></pre>
+
+<p>###集合操作类方法（Collection Methods）</p>
+
+<p>有些对象管理着一系列其它对象或者元素的集合，需要使用类似“增删查改”的方法来对集合进行操作，这些方法的命名范式一般为：</p>
+
+<pre><code class="language-objective-c">//集合操作范式
+- (void)addElement:(elementType)anObj;
+- (void)removeElement:(elementType)anObj;
+- (NSArray *)elements;
+
+//例子
+- (void)addLayoutManager:(NSLayoutManager *)obj;
+- (void)removeLayoutManager:(NSLayoutManager *)obj;
+- (NSArray *)layoutManagers;
+</code></pre>
+
+<p>注意，如果返回的集合是无序的，使用<code class="language-plaintext highlighter-rouge">NSSet</code>来代替<code class="language-plaintext highlighter-rouge">NSArray</code>。如果需要将元素插入到特定的位置，使用类似于这样的命名：</p>
+
+<pre><code class="language-objective-c">- (void)insertLayoutManager:(NSLayoutManager *)obj atIndex:(int)index;
+- (void)removeLayoutManagerAtIndex:(int)index;
+</code></pre>
+
+<p>如果管理的集合元素中有指向管理对象的指针，要设置成<code class="language-plaintext highlighter-rouge">weak</code>类型以防止引用循环。</p>
+
+<p>下面是SDK中<code class="language-plaintext highlighter-rouge">NSWindow</code>类的集合操作方法：</p>
+
+<pre><code class="language-objective-c">- (void)addChildWindow:(NSWindow *)childWin ordered:(NSWindowOrderingMode)place;
+- (void)removeChildWindow:(NSWindow *)childWin;
+- (NSArray *)childWindows;
+- (NSWindow *)parentWindow;
+- (void)setParentWindow:(NSWindow *)window;
+</code></pre>
+
+<p>###命名函数（Functions）</p>
+
+<p>在很多场合仍然需要用到函数，比如说如果一个对象是一个单例，那么应该使用函数来代替类方法执行相关操作。</p>
+
+<p>函数的命名和方法有一些不同，主要是：</p>
+
+<ul>
+  <li>函数名称一般带有缩写前缀，表示方法所在的框架。</li>
+  <li>前缀后的单词以“驼峰”表示法显示，第一个单词首字母大写。</li>
+</ul>
+
+<p>函数名的第一个单词通常是一个动词，表示方法执行的操作：</p>
+
+<pre><code class="language-objective-c">NSHighlightRect
+NSDeallocateObject
+</code></pre>
+
+<p>如果函数返回其参数的某个属性，省略动词：</p>
+
+<pre><code class="language-objective-c">unsigned int NSEventMaskFromType(NSEventType type)
+float NSHeight(NSRect aRect)
+</code></pre>
+
+<p>如果函数通过指针参数来返回值，需要在函数名中使用<code class="language-plaintext highlighter-rouge">Get</code>：</p>
+
+<pre><code class="language-objective-c">const char *NSGetSizeAndAlignment(const char *typePtr, unsigned int *sizep, unsigned int *alignp)
+</code></pre>
+
+<p>函数的返回类型是BOOL时的命名：</p>
+
+<pre><code class="language-objective-c">BOOL NSDecimalIsNotANumber(const NSDecimal *decimal)
+</code></pre>
+
+<p>###命名属性和实例变量（Properties&amp;Instance Variables）</p>
+
+<p>属性和对象的存取方法相关联，属性的第一个字母小写，后续单词首字母大写，不必添加前缀。属性按功能命名成名词或者动词：</p>
+
+<pre><code class="language-objective-c">//名词属性
+@property (nonatomic, strong) NSString *title;
+
+//动词属性
+@property (nonatomic, assign) BOOL showsAlpha;
+</code></pre>
+
+<p>属性也可以命名成形容词，这时候通常会指定一个带有<code class="language-plaintext highlighter-rouge">is</code>前缀的get方法来提高可读性：</p>
+
+<pre><code class="language-objective-c">@property (nonatomic, assign, getter=isEditable) BOOL editable;
+</code></pre>
+
+<p>命名实例变量，在变量名前加上<code class="language-plaintext highlighter-rouge">_</code>前缀（<em>有些有历史的代码会将<code class="language-plaintext highlighter-rouge">_</code>放在后面</em>），其它和命名属性一样。不过，除了在初始化方法（<code class="language-plaintext highlighter-rouge">init</code>、<code class="language-plaintext highlighter-rouge">initWithCoder</code>等），<code class="language-plaintext highlighter-rouge">dealloc</code> 方法和自定义的<code class="language-plaintext highlighter-rouge">setter</code>和<code class="language-plaintext highlighter-rouge">getter</code>方法中，尽量避免使用变量名前面有下划线（<code class="language-plaintext highlighter-rouge">_variable</code>）直接访问实例变量。</p>
+
+<p>一般来说，类需要对使用者隐藏数据存储的细节，所以不要将实例方法定义成公共可访问的接口。私有属性应该定义在类的实现文件的类的扩展 (匿名分类) 中。不允许在有名字的 category中定义私有属性，除非你扩展其他类。例如：</p>
+
+<pre><code class="language-objective-c">@interface TXViewController ()
+@property (nonatomic, strong) UIView *bannerView;
+@end
+</code></pre>
+<p>###命名常量（Constants）</p>
+
+<p>如果要定义一组相关的常量，尽量使用枚举类型（enumerations），枚举类型的命名规则和函数的命名规则相同。
+建议使用 <code class="language-plaintext highlighter-rouge">NS_ENUM</code> 和 <code class="language-plaintext highlighter-rouge">NS_OPTIONS</code> 宏来定义枚举类型，参见官方的 <a href="https://developer.apple.com/library/ios/releasenotes/ObjectiveC/ModernizationObjC/AdoptingModernObjective-C/AdoptingModernObjective-C.html">Adopting Modern Objective-C</a> 一文：</p>
+
+<pre><code class="language-objective-c">//定义一个枚举
+typedef NS_ENUM(NSInteger, NSMatrixMode) {
+    NSRadioModeMatrix,
+    NSHighlightModeMatrix,
+    NSListModeMatrix,
+    NSTrackModeMatrix
+};
+</code></pre>
+
+<p>定义bit map：</p>
+
+<pre><code class="language-objective-c">typedef NS_OPTIONS(NSUInteger, NSWindowMask) {
+    NSBorderlessWindowMask      = 0,
+    NSTitledWindowMask          = 1 &lt;&lt; 0,
+    NSClosableWindowMask        = 1 &lt;&lt; 1,
+    NSMiniaturizableWindowMask  = 1 &lt;&lt; 2,
+    NSResizableWindowMask       = 1 &lt;&lt; 3
+};
+</code></pre>
+
+<p>使用<code class="language-plaintext highlighter-rouge">const</code>定义浮点型或者单个的整数型常量，如果要定义一组相关的整数常量，应该优先使用枚举。</p>
+
+<p>注意到一般由编译器定义的宏会在前后都有一个<code class="language-plaintext highlighter-rouge">__</code>，比如<em><code class="language-plaintext highlighter-rouge">__MACH__</code></em>。</p>
+
+<p>###命名通知（Notifications）</p>
+
+<p>通知常用于在模块间传递消息，所以通知要尽可能地表示出发生的事件，通知的命名范式是：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[触发通知的类名] + [Did | Will] + [动作] + Notification
+</code></pre></div></div>
+
+<p>例子：</p>
+
+<pre><code class="language-objective-c">NSApplicationDidBecomeActiveNotification
+NSWindowDidMiniaturizeNotification
+NSTextViewDidChangeSelectionNotification
+NSColorPanelColorDidChangeNotification
+</code></pre>
+
+<p>##注释</p>
+
+<p>读没有注释代码的痛苦你我都体会过，好的注释不仅能让人轻松读懂你的程序，还能提升代码的逼格。注意注释是为了让别人看懂，而不是仅仅你自己。</p>
+
+<p>###文件注释</p>
+
+<p>每一个文件都<strong>必须</strong>写文件注释，文件注释通常包含</p>
+
+<ul>
+  <li>文件所在模块</li>
+  <li>作者信息</li>
+  <li>历史版本信息</li>
+  <li>版权信息</li>
+  <li>文件包含的内容，作用</li>
+</ul>
+
+<p>一段良好文件注释的例子：</p>
+
+<pre><code class="language-objective-c">//
+//  TXAppDelegate.m
+//  txman_mvvm
+//  txmanios的应用代理实现
+//
+//  Created by 晓童 韩 on 16/1/11.
+//  Copyright © 2016年 晓童 韩. All rights reserved.
+//
+</code></pre>
+
+<p><em>文件注释的格式通常不作要求，能清晰易读就可以了，但在整个工程中风格要统一。</em></p>
+
+<p>###代码注释</p>
+
+<p>好的代码应该是“自解释”（self-documenting）的，但仍然需要详细的注释来说明参数的意义、返回值、功能以及可能的副作用。</p>
+
+<p>方法、函数、类、协议、类别的定义都需要注释，推荐采用Apple的标准注释风格，好处是可以在引用的地方<code class="language-plaintext highlighter-rouge">alt+点击</code>自动弹出注释，非常方便。</p>
+
+<p>有很多可以自动生成注释格式的插件，推荐使用<a href="https://github.com/onevcat/VVDocumenter-Xcode">VVDocumenter</a>：</p>
+
+<p><img src="https://raw.github.com/onevcat/VVDocumenter-Xcode/master/ScreenShot.gif" alt="Screenshot" /></p>
+
+<p>一些良好的注释：</p>
+
+<pre><code class="language-objective-c">/**
+ *  Create a new preconnector to replace the old one with given mac address.
+ *  NOTICE: We DO NOT stop the old preconnector, so handle it by yourself.
+ *
+ *  @param type       Connect type the preconnector use.
+ *  @param macAddress Preconnector's mac address.
+ */
+- (void)refreshConnectorWithConnectType:(IPCConnectType)type  Mac:(NSString *)macAddress;
+
+/**
+ *  Stop current preconnecting when application is going to background.
+ */
+- (void)stopRunning;
+
+/**
+ *  Get the COPY of cloud device with a given mac address.
+ *
+ *  @param macAddress Mac address of the device.
+ *
+ *  @return Instance of IPCCloudDevice.
+ */
+- (IPCCloudDevice *)getCloudDeviceWithMac:(NSString *)macAddress;
+
+// A delegate for NSApplication to handle notifications about app
+// launch and shutdown. Owned by the main app controller.
+@interface MyAppDelegate : NSObject {
+  ...
+}
+@end
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+	if ([SSKeychain rawLogin].isExist) {
+		// 如果用户名密码存在则使用OctoKit APIs去登陆
+		// something
+		} else {
+   		// 去到登陆页面
+	}
+}
+</code></pre>
+
+<p>协议、代理的注释要明确说明其被触发的条件：</p>
+
+<pre><code class="language-objective-c">/** Delegate - Sent when failed to init connection, like p2p failed. */
+-(void)initConnectionDidFailed:(IPCConnectHandler *)handler;
+</code></pre>
+
+<p><strong>定义在头文件里的接口方法、属性（特别是数据模型的属性）必须要有注释！</strong></p>
+
+<p>##其他</p>
+
+<p>###懒加载（Lazy Loading）</p>
+
+<p>如果有必要，最好重写getter方法以实现资源的懒加载。</p>
+
+<p>###init方法</p>
+
+<p>init方法应该遵循Apple生成代码模板的命名规则。返回类型应该使用instancetype而不是id。例如：</p>
+
+<pre><code class="language-objective-c">- (instancetype)init {
+	self = [super init];
+	if (self) {
+		// ...
+	}
+	return self;
+}
+</code></pre>
+
+<p>###类构造方法</p>
+
+<p>当类构造方法被使用时，它应该返回类型是instancetype而不是id。这样确保编译器正确地推断结果类型。例如：</p>
+
+<pre><code class="language-objective-c">@interface Airplane
++ (instancetype)airplaneWithType:(TXAirplaneType)type;
+@end
+</code></pre>
+
+<p>###条件语句</p>
+
+<p>条件语句体应该总是被大括号包围。</p>
+
+<p>推荐：</p>
+
+<pre><code class="language-objective-c">if (!error) {
+    return success;
+}
+</code></pre>
+
+<p>不推荐:</p>
+
+<pre><code class="language-objective-c">if (!error)
+    return success;
+//以及
+if (!error) return success;
+</code></pre>
+
+<p>###不要使用new方法</p>
+
+<p>尽管很多时候能用<code class="language-plaintext highlighter-rouge">new</code>代替<code class="language-plaintext highlighter-rouge">alloc init</code>方法，但这可能会导致调试内存时出现不可预料的问题。Cocoa的规范就是使用<code class="language-plaintext highlighter-rouge">alloc init</code>方法，使用<code class="language-plaintext highlighter-rouge">new</code>会让一些读者困惑。</p>
+
+<p>####import和#include</p>
+
+<p><code class="language-plaintext highlighter-rouge">#import</code>是Cocoa中常用的引用头文件的方式，它能自动防止重复引用文件，什么时候使用<code class="language-plaintext highlighter-rouge">#import</code>，什么时候使用<code class="language-plaintext highlighter-rouge">#include</code>呢？</p>
+
+<ul>
+  <li>当引用的是一个Objective-C或者Objective-C++的头文件时，使用<code class="language-plaintext highlighter-rouge">#import</code></li>
+  <li>当引用的是一个C或者C++的头文件时，使用<code class="language-plaintext highlighter-rouge">#include</code>，这时必须要保证被引用的文件提供了保护域（#define guard）。</li>
+</ul>
+
+<p>例子：</p>
+
+<pre><code class="language-objective-c">#import &lt;Cocoa/Cocoa.h&gt;
+#include &lt;CoreFoundation/CoreFoundation.h&gt;
+#import "GTMFoo.h"
+#include "base/basictypes.h"
+</code></pre>
+
+<p>为什么不全部使用<code class="language-plaintext highlighter-rouge">#import</code>呢？主要是为了保证代码在不同平台间共享时不出现问题。</p>
+
+<p>###引用框架的根头文件</p>
+
+<p>上面提到过，每一个框架都会有一个和框架同名的头文件，它包含了框架内接口的所有引用，在使用框架的时候，应该直接引用这个根头文件，而不是其它子模块的头文件，即使是你只用到了其中的一小部分，编译器会自动完成优化的。</p>
+
+<pre><code class="language-objective-c">//正确，引用根头文件
+#import &lt;Foundation/Foundation.h&gt;
+
+//错误，不要单独引用框架内的其它头文件
+#import &lt;Foundation/NSArray.h&gt;
+#import &lt;Foundation/NSString.h&gt;
+</code></pre>
+
+<p>###BOOL的使用</p>
+
+<p>BOOL在Objective-C中被定义为<code class="language-plaintext highlighter-rouge">signed char</code>类型，这意味着一个BOOL类型的变量不仅仅可以表示<code class="language-plaintext highlighter-rouge">YES</code>(1)和<code class="language-plaintext highlighter-rouge">NO</code>(0)两个值，所以永远<strong>不要</strong>将BOOL类型变量直接和<code class="language-plaintext highlighter-rouge">YES</code>比较：</p>
+
+<pre><code class="language-objective-c">//错误，无法确定|great|的值是否是YES(1)，不要将BOOL值直接与YES比较
+BOOL great = [foo isGreat];
+if (great == YES)
+  // ...be great!
+
+//正确
+BOOL great = [foo isGreat];
+if (great)
+  // ...be great!
+</code></pre>
+
+<p>同样的，也不要将其它类型的值作为BOOL来返回，这种情况下，BOOL变量只会取值的最后一个字节来赋值，这样很可能会取到0（NO）。但是，一些逻辑操作符比如<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>,<code class="language-plaintext highlighter-rouge">||</code>,<code class="language-plaintext highlighter-rouge">!</code>的返回是可以直接赋给BOOL的：</p>
+
+<pre><code class="language-objective-c">//错误，不要将其它类型转化为BOOL返回
+- (BOOL)isBold {
+  return [self fontTraits] &amp; NSFontBoldTrait;
+}
+- (BOOL)isValid {
+  return [self stringValue];
+}
+
+//正确
+- (BOOL)isBold {
+  return ([self fontTraits] &amp; NSFontBoldTrait) ? YES : NO;
+}
+
+//正确，逻辑操作符可以直接转化为BOOL
+- (BOOL)isValid {
+  return [self stringValue] != nil;
+}
+- (BOOL)isEnabled {
+  return [self isValid] &amp;&amp; [self isBold];
+}
+</code></pre>
+
+<p>另外BOOL类型可以和<code class="language-plaintext highlighter-rouge">_Bool</code>,<code class="language-plaintext highlighter-rouge">bool</code>相互转化，但是<strong>不能</strong>和<code class="language-plaintext highlighter-rouge">Boolean</code>转化。</p>
+
+<p>###在init和dealloc中不要用存取方法访问实例变量</p>
+
+<p>当<code class="language-plaintext highlighter-rouge">init</code><code class="language-plaintext highlighter-rouge">dealloc</code>方法被执行时，类的运行时环境不是处于正常状态的，使用存取方法访问变量可能会导致不可预料的结果，因此应当在这两个方法内直接访问实例变量。</p>
+
+<pre><code class="language-objective-c">//正确，直接访问实例变量
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    _bar = [[NSMutableString alloc] init];
+  }
+  return self;
+}
+- (void)dealloc {
+  [_bar release];
+  [super dealloc];
+}
+
+//错误，不要通过存取方法访问
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    self.bar = [NSMutableString string];
+  }
+  return self;
+}
+- (void)dealloc {
+  self.bar = nil;
+  [super dealloc];
+}
+</code></pre>
+
+<p>###按照定义的顺序释放资源</p>
+
+<p>在类或者Controller的生命周期结束时，往往需要做一些扫尾工作，比如释放资源，停止线程等，这些扫尾工作的释放顺序应当与它们的初始化或者定义的顺序保持一致。这样做是为了方便调试时寻找错误，也能防止遗漏。</p>
+
+<p>###保证NSString在赋值时被复制</p>
+
+<p><code class="language-plaintext highlighter-rouge">NSString</code>非常常用，在它被传递或者赋值时应当保证是以复制（copy）的方式进行的，这样可以防止在不知情的情况下String的值被其它对象修改。</p>
+
+<pre><code class="language-objective-c">- (void)setFoo:(NSString *)aFoo {
+  _foo = [aFoo copy];
+}
+</code></pre>
+
+<p>###使用NSNumber的语法糖</p>
+
+<p>使用带有<code class="language-plaintext highlighter-rouge">@</code>符号的语法糖来生成NSNumber对象能使代码更简洁：</p>
+
+<pre><code class="language-objective-c">NSNumber *fortyTwo = @42;
+NSNumber *piOverTwo = @(M_PI / 2);
+enum {
+  kMyEnum = 2;
+};
+NSNumber *myEnum = @(kMyEnum);
+</code></pre>
+
+<p>###nil检查</p>
+
+<p>因为在Objective-C中向nil对象发送命令是不会抛出异常或者导致崩溃的，只是完全的“什么都不干”，所以，只在程序中使用nil来做逻辑上的检查。</p>
+
+<p>另外，不要使用诸如<code class="language-plaintext highlighter-rouge">nil == Object</code>或者<code class="language-plaintext highlighter-rouge">Object == nil</code>的形式来判断。</p>
+
+<pre><code class="language-objective-c">//正确，直接判断
+if (!objc) {
+	...
+}
+
+//错误，不要使用nil == Object的形式
+if (nil == objc) {
+	...
+}
+</code></pre>
+
+<p>###黄金大道</p>
+
+<p>在使用条件语句编程时，代码的左边距应该是一条“黄金”或者“快乐”的大道。 也就是说，不要嵌套 if 语句。使用多个 return 可以避免增加循环的复杂度，并提高代码的可读性。因为方法的重要部分没有嵌套在分支里面，并且你可以很清楚地找到相关的代码。</p>
+
+<p>推荐:</p>
+
+<pre><code class="language-objective-c">- (void)someMethod {
+	if (![someOther boolValue]) {
+		return;
+	}
+	//Do something important
+}
+</code></pre>
+
+<p>不推荐:</p>
+
+<pre><code class="language-objective-c">- (void)someMethod {
+	if ([someOther boolValue]) {
+		//Do something important
+	}
+}
+</code></pre>
+
+<p>###点分语法的使用</p>
+
+<p>不要用点分语法来调用方法，只用来访问属性。这样是为了防止代码可读性问题。</p>
+
+<pre><code class="language-objective-c">//正确，使用点分语法访问属性
+NSString *oldName = myObject.name;
+myObject.name = @"Alice";
+
+//错误，不要用点分语法调用方法
+NSArray *array = [NSArray arrayWithObject:@"hello"];
+NSUInteger numberOfItems = array.count;
+array.release;
+</code></pre>
+
+<p>参考：<a href="https://github.com/lettleprince/Objective-C-Style-Guide/blob/master/Objective-C代码规范.md">Objective-C代码规范</a></p>
+
+
+
+    <div class="blog-navigation">
+        
+            <a class="prev" href="https://kiritobeater.github.io/ios%E5%8F%8Areact-native%E5%A5%BD%E7%94%A8%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BC%80%E6%BA%90%E5%BA%93/">&laquo; iOS及React Native好用的第三方开源库</a>
+        
+        
+            <a class="next" href="https://kiritobeater.github.io/iOS%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%B8%A6%E8%B0%83%E8%AF%95%E6%82%AC%E6%B5%AE%E7%AA%97/">iOS 系统自带调试悬浮窗 &raquo;</a>
+        
+    </div>
+
+
+
+    <div class="related">
+    
+    
+        
+        
+            
+                
+            
+        
+            
+                
+                    
+                    <h4>Related Posts</h4>
+                    <ul>
+                    
+                    <li class="relatedPost">
+                        <a href="https://kiritobeater.github.io/CGImageAnimation-iOS%E5%8E%9F%E7%94%9FGIF%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA/">ImageIO - CGImageAnimation iOS原生GIF图片显示
+                        
+                        </a>
+                    </li>
+                    
+                    
+                
+            
+        
+    
+        
+        
+            
+                
+            
+        
+    
+        
+        
+            
+                
+            
+        
+            
+                
+                    
+                    <li class="relatedPost">
+                        <a href="https://kiritobeater.github.io/nsoperationqueue/">NSOperationQueue实现等待多个请求完成后执行操作
+                        
+                        </a>
+                    </li>
+                    
+                    
+                
+            
+        
+    
+        
+        
+            
+                
+            
+        
+    
+        
+        
+            
+                
+            
+        
+    
+        
+        
+            
+                
+            
+        
+    
+        
+        
+            
+                
+            
+        
+            
+                
+            
+        
+    
+        
+        
+            
+                
+            
+        
+    
+        
+        
+            
+                
+            
+        
+    
+        
+        
+            
+                
+                    
+                    <li class="relatedPost">
+                        <a href="https://kiritobeater.github.io/ios%E5%8F%8Areact-native%E5%A5%BD%E7%94%A8%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BC%80%E6%BA%90%E5%BA%93/">iOS及React Native好用的第三方开源库
+                        
+                        </a>
+                    </li>
+                    
+                    
+                
+            
+        
+            
+                
+            
+        
+            
+                
+            
+        
+    
+        
+        
+            
+                
+                    
+                    <li class="relatedPost">
+                        <a href="https://kiritobeater.github.io/iOS%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">iOS单例模式
+                        
+                        </a>
+                    </li>
+                    
+                    
+                
+            
+        
+            
+                
+            
+        
+    
+        
+        
+            
+                
+            
+        
+    
+    
+        </ul>
+    
+</div>
+
+
+
+
+    <section class="author">
+    <div class="toleft">
+        <img class="selfie" src="https://kiritobeater.github.io/" alt="">
+    </div>
+
+    <div class="toright">
+        <h4 class="name"></h4>
+        <p class="bio"></p>
+
+        <div class="share">
+            <!-- Note: Only use three share links if your site width is set to large -->
+            <!-- If site width is set to normal, you may choose any two share links -->
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/ - Objective-C代码规范 by @">
+                <svg class="icon"><use xlink:href='#fab.fa-twitter'></use></svg>
+                <span class="icon-twitter">Tweet</span>
+            </a>
+
+            <a class="facebook" href="javascript:void(0)" onclick="window.open('https://facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 'facebook-share-dialog', 'width=626,height=436'); return false;">
+                <svg class="icon"><use xlink:href='#fab.fa-facebook'></use></svg>
+                <span class="icon-facebook-rect">Share</span>
+            </a>
+
+            <!-- <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/&amp;title=Objective-C代码规范&amp;summary=&amp;source=https://kiritobeater.github.io" target="_blank">
+                <svg class="icon"><use xlink:href='#fab.fa-linkedin'></use></svg>
+                <span class="icon-linkedin">Share</span>
+            </a> -->
+
+            <!-- <a class="reddit" href="https://reddit.com/submit?url=https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/&amp;title=Objective-C代码规范" target="_blank">
+                <svg class="icon"><use xlink:href='#fab.fa-reddit'></use></svg>
+                <span class="icon-reddit">Share</span>
+            </a> -->
+        </div>
+    </div>
+</section>
+
+
+
+<div id="comments">
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <style>
+        .gitment-container a {
+          border: none;
+        }
+        .comments {
+          margin: 60px 0 0;
+        }
+    </style>
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js" type="text/javascript"></script> 
+    <script type="text/javascript"> 
+        var gitment = new Gitment({
+            id: '2016-05-03 23:07:00 +0000',
+            owner: 'KiritoBeater',
+            repo: 'KiritoBeater.github.io',
+            oauth: {
+                client_id: 'ca700beee442adf563d4',
+                client_secret: '548f226377b26c2d114dd13c703e228e0ef2de7f',
+            }
+        });
+        gitment.render('comments');
+    </script> 
+</div>
+
+
+
+
+<footer class="footer-main">
+    <span class="copyright">
+        流星企盼 © 2020
+    </span>
+    
+    <a class="link" href="https://kiritobeater.github.io/feed.xml" target="_blank">
+        <svg class="icon"><use xlink:href='#fas.fa-rss'></use></svg>
+    </a>
+
+    <p class="extra">
+        <a class="link" href="https://github.com/sergiokopplin/indigo">Indigo theme</a> by <a class="link" href="https://github.com/sergiokopplin/indigo">Kopplin</a>
+    </p>
+</footer>
+
+
+        </div>
+    </div>
+
+    <svg display="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <defs>
+                  <!--
+                  Font Awesome Free 5.5.0 by @fontawesome - https://fontawesome.com
+                  License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+                  -->
+              <symbol id='fab.fa-twitter' viewBox='0 0 512 512'>
+            <title>twitter</title>
+            <path class='path1' d='M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z'></path>
+        </symbol>
+        <symbol id='fab.fa-facebook' viewBox='0 0 448 512'>
+            <title>facebook</title>
+            <path class='path1' d='M448 56.7v398.5c0 13.7-11.1 24.7-24.7 24.7H309.1V306.5h58.2l8.7-67.6h-67v-43.2c0-19.6 5.4-32.9 33.5-32.9h35.8v-60.5c-6.2-.8-27.4-2.7-52.2-2.7-51.6 0-87 31.5-87 89.4v49.9h-58.4v67.6h58.4V480H24.7C11.1 480 0 468.9 0 455.3V56.7C0 43.1 11.1 32 24.7 32h398.5c13.7 0 24.8 11.1 24.8 24.7z'></path>
+        </symbol>
+        <symbol id='fab.fa-linkedin' viewBox='0 0 448 512'>
+            <title>linkedin</title>
+            <path class='path1' d='M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z'></path>
+        </symbol>
+        <symbol id='fab.fa-reddit' viewBox='0 0 512 512'>
+            <title>reddit</title>
+            <path class='path1' d='M201.5 305.5c-13.8 0-24.9-11.1-24.9-24.6 0-13.8 11.1-24.9 24.9-24.9 13.6 0 24.6 11.1 24.6 24.9 0 13.6-11.1 24.6-24.6 24.6zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-132.3-41.2c-9.4 0-17.7 3.9-23.8 10-22.4-15.5-52.6-25.5-86.1-26.6l17.4-78.3 55.4 12.5c0 13.6 11.1 24.6 24.6 24.6 13.8 0 24.9-11.3 24.9-24.9s-11.1-24.9-24.9-24.9c-9.7 0-18 5.8-22.1 13.8l-61.2-13.6c-3-.8-6.1 1.4-6.9 4.4l-19.1 86.4c-33.2 1.4-63.1 11.3-85.5 26.8-6.1-6.4-14.7-10.2-24.1-10.2-34.9 0-46.3 46.9-14.4 62.8-1.1 5-1.7 10.2-1.7 15.5 0 52.6 59.2 95.2 132 95.2 73.1 0 132.3-42.6 132.3-95.2 0-5.3-.6-10.8-1.9-15.8 31.3-16 19.8-62.5-14.9-62.5zM302.8 331c-18.2 18.2-76.1 17.9-93.6 0-2.2-2.2-6.1-2.2-8.3 0-2.5 2.5-2.5 6.4 0 8.6 22.8 22.8 87.3 22.8 110.2 0 2.5-2.2 2.5-6.1 0-8.6-2.2-2.2-6.1-2.2-8.3 0zm7.7-75c-13.6 0-24.6 11.1-24.6 24.9 0 13.6 11.1 24.6 24.6 24.6 13.8 0 24.9-11.1 24.9-24.6 0-13.8-11-24.9-24.9-24.9z'></path>
+        </symbol>
+        <symbol id='fas.fa-rss' viewBox='0 0 448 512'>
+            <title>rss</title>
+            <path class='path1' d='M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z'></path>
+        </symbol>
+        </defs>
+              </svg>
+
+
+</body>
+</html>
+

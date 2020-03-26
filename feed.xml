@@ -1,0 +1,2101 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://kiritobeater.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kiritobeater.github.io/" rel="alternate" type="text/html" /><updated>2020-03-26T01:17:35+00:00</updated><id>https://kiritobeater.github.io/feed.xml</id><title type="html">流星企盼</title><subtitle>临渊羡鱼，不如退而结网</subtitle><entry><title type="html">ImageIO - CGImageAnimation iOS原生GIF图片显示</title><link href="https://kiritobeater.github.io/CGImageAnimation-iOS%E5%8E%9F%E7%94%9FGIF%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA/" rel="alternate" type="text/html" title="ImageIO - CGImageAnimation iOS原生GIF图片显示" /><published>2020-02-15T00:00:00+00:00</published><updated>2020-02-15T00:00:00+00:00</updated><id>https://kiritobeater.github.io/CGImageAnimation%20iOS%E5%8E%9F%E7%94%9FGIF%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA</id><content type="html" xml:base="https://kiritobeater.github.io/CGImageAnimation-iOS%E5%8E%9F%E7%94%9FGIF%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA/">&lt;p&gt;一直以来，iOS显示动图都是一件很麻烦的事情，鉴于手写代码的繁琐，借助第三方几乎时不可避免的事情，然而从现在开始，苹果的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ImageIO/CGImageAnimation&lt;/code&gt;提供了原生的动图图片解析和播放。&lt;/p&gt;
+&lt;h3 id=&quot;demo&quot;&gt;Demo&lt;/h3&gt;
+&lt;p&gt;先看具体的使用，基本上就一行代码&lt;/p&gt;
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ImageIO&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIImageView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gifURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;forResource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;aImage&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;withExtension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;gif&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 使用GIF的URL加载动图&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gifCURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gifURL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CFURL&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;CGAnimateImageAtURLWithBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gifCURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;imageView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;cgImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;c1&quot;&gt;// 使用GIF的Data加载动图&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gifData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;contentsOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gifURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gifCData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gifData&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CFData&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;CGAnimateImageDataWithBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gifCData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;imageView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;cgImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;详解&quot;&gt;详解&lt;/h3&gt;
+&lt;h5 id=&quot;api&quot;&gt;API&lt;/h5&gt;
+&lt;p&gt;接下来，详细说一下相关的API&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@available(iOS 13.0, *)&lt;/code&gt; iOS 13 系统起可用&lt;/li&gt;
+    &lt;li&gt;相关API仅支持&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GIF&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;APNG&lt;/code&gt;格式的图片&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;typealias&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGImageSourceAnimationBlock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UnsafeMutablePointer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGAnimateImageAtURLWithBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CFURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CFDictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;@escaping&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGImageSourceAnimationBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;OSStatus&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGAnimateImageDataWithBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CFData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CFDictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;@escaping&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGImageSourceAnimationBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;OSStatus&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;方法仅传入动图的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URL&lt;/code&gt;地址或二进制数据&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Data&lt;/code&gt;即可，当然因为是c函数，要转成&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CFURL&lt;/code&gt; 和 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CFData&lt;/code&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;cgimagesourceanimationblock&quot;&gt;CGImageSourceAnimationBlock&lt;/h5&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CGImageSourceAnimationBlock&lt;/code&gt; 参数分别为&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;index&lt;/code&gt;
+当前显示帧的索引&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;image&lt;/code&gt;
+当前的图片&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;stop&lt;/code&gt;
+是否是最后一张图&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;options&quot;&gt;options&lt;/h5&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;options&lt;/code&gt;是播放动态时的额外的配置，有三个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Key&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kCGImageAnimationStartIndex&lt;/code&gt;
+动图从第几帧开始播放，默认是0&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kCGImageAnimationDelayTime&lt;/code&gt;
+动图每帧之间的间隔，会覆盖动图原有的间隔（动图原有的每帧之间的时间间隔可以不同，这个属性会统一成同一间隔）&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kCGImageAnimationLoopCount&lt;/code&gt;
+动图的循环次数，会覆盖动图原有的循环次数（一般是无限次）&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;osstatus&quot;&gt;OSStatus&lt;/h5&gt;
+&lt;p&gt;调用的返回结果，成功时为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt;。以下是一些调用失败时可以使用的枚举&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CGImageAnimationStatus&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGImageAnimationStatus&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;OSStatus&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parameterError&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/* NULL or invalid parameter passed to API */&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;corruptInputImage&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/* An image cannot be read from the given source */&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unsupportedFormat&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/* The image format is not applicable to animation */&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;incompleteInputImage&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/* An image can be read from the given source, but it is incomplete */&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;allocationFailure&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/* A required resource could not be created */&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="blog" /><category term="iOS" /><category term="Objective-C" /><summary type="html">一直以来，iOS显示动图都是一件很麻烦的事情，鉴于手写代码的繁琐，借助第三方几乎时不可避免的事情，然而从现在开始，苹果的ImageIO/CGImageAnimation提供了原生的动图图片解析和播放。 Demo 先看具体的使用，基本上就一行代码 ```swift import ImageIO</summary></entry><entry><title type="html">将Flutter添加到现有应用</title><link href="https://kiritobeater.github.io/%E5%B0%86Flutter%E6%B7%BB%E5%8A%A0%E5%88%B0%E7%8E%B0%E6%9C%89%E5%BA%94%E7%94%A8/" rel="alternate" type="text/html" title="将Flutter添加到现有应用" /><published>2019-12-04T00:00:00+00:00</published><updated>2019-12-04T00:00:00+00:00</updated><id>https://kiritobeater.github.io/%E5%B0%86Flutter%E6%B7%BB%E5%8A%A0%E5%88%B0%E7%8E%B0%E6%9C%89%E5%BA%94%E7%94%A8</id><content type="html" xml:base="https://kiritobeater.github.io/%E5%B0%86Flutter%E6%B7%BB%E5%8A%A0%E5%88%B0%E7%8E%B0%E6%9C%89%E5%BA%94%E7%94%A8/">&lt;h1 id=&quot;将flutter添加到现有应用&quot;&gt;将Flutter添加到现有应用&lt;/h1&gt;
+
+&lt;p&gt;Jenn Magder编辑了此页面 20天前 · &lt;a href=&quot;https://github.com/flutter/flutter/wiki/Add-Flutter-to-existing-apps/_history&quot;&gt;99个修订&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+
+&lt;p&gt;轻松将Flutter添加到现有应用程序的工作正在进行中。&lt;/p&gt;
+
+&lt;p&gt;该页面记录了该工作的当前状态，并将在我们构建必要的工具时进行更新。&lt;/p&gt;
+
+&lt;p&gt;最后更新时间为2019年8月23日。&lt;/p&gt;
+
+&lt;p&gt;“添加到应用”支持&lt;strong&gt;处于预览状态&lt;/strong&gt;，到目前为止仅在主频道上可用。&lt;/p&gt;
+
+&lt;h2 id=&quot;免责声明&quot;&gt;免责声明&lt;/h2&gt;
+
+&lt;p&gt;由于Flutter的“添加到应用”功能处于预览状态，因此相关的API和工具不稳定，并且可能会发生变化。&lt;/p&gt;
+
+&lt;h2 id=&quot;flutter模块项目模板&quot;&gt;Flutter模块项目模板&lt;/h2&gt;
+
+&lt;p&gt;使用创建的Flutter项目&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flutter create xxx&lt;/code&gt;包括用于Flutter / Dart代码的非常简单的宿主应用程序（单个Activity Android宿主和单个ViewController iOS宿主）。您可以修改这些主机应用程序以适合您的需求并从那里构建。&lt;/p&gt;
+
+&lt;p&gt;但是，如果您要从任一平台的&lt;em&gt;现有&lt;/em&gt;主机应用程序开始，则可能需要将Flutter项目作为某种形式的库包含在该应用程序中。&lt;/p&gt;
+
+&lt;p&gt;这就是Flutter模块模板所提供的。执行将 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flutter create -t module xxx&lt;/code&gt;产生一个Flutter项目，其中包含一个Android库和一个CocoaPods Pod，供您现有的宿主应用程序使用。&lt;/p&gt;
+
+&lt;h2 id=&quot;安卓系统&quot;&gt;安卓系统&lt;/h2&gt;
+
+&lt;h3 id=&quot;创建flutter模块&quot;&gt;创建Flutter模块&lt;/h3&gt;
+
+&lt;p&gt;假设您在处已有一个Android应用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;some/path/MyApp&lt;/code&gt;，并且您希望Flutter项目作为同级项目：&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;some/path/
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;flutter create &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; module &lt;span class=&quot;nt&quot;&gt;--org&lt;/span&gt; com.example my_flutter
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这将创建一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;some/path/my_flutter/&lt;/code&gt;Flutter模块项目，其中包含一些Dart代码以帮助您入门以及一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.android/&lt;/code&gt;隐藏的子文件夹，该文件夹将模块项目包装在Android库中。&lt;/p&gt;
+
+&lt;h4 id=&quot;使用android-studio创建flutter模块&quot;&gt;使用Android Studio创建Flutter模块&lt;/h4&gt;
+
+&lt;p&gt;如果您使用Android Studio创建新的Flutter模块，则可以跳过一些手动编辑步骤。为此，请在Android Studio中打开您的Android应用。使用菜单“文件&amp;gt;新建&amp;gt;新建模块…”创建Flutter模块。&lt;/p&gt;
+
+&lt;p&gt;将打开“新模块向导”，并带有一个选项面板。向下滚动以找到Flutter的那些。选择标记为的一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Flutter Module&lt;/code&gt;。单击可&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Next&lt;/code&gt;进入Flutter的新模块向导页面。像填写Flutter模块项目一样填写它们。&lt;/p&gt;
+
+&lt;p&gt;该模块创建后，你可以开始编辑您的Android应用使用颤振模块（请参见&lt;a href=&quot;https://github.com/flutter/flutter/wiki/Add-Flutter-to-existing-apps#use-the-flutter-module-from-your-java-code&quot;&gt;使用来自Java代码的颤振模块&lt;/a&gt;）。&lt;/p&gt;
+
+&lt;p&gt;您可能需要更改项目视图才能查看Flutter文件。项目文件选项效果很好。&lt;/p&gt;
+
+&lt;p&gt;您可以跳过&lt;a href=&quot;https://github.com/flutter/flutter/wiki/Add-Flutter-to-existing-apps#make-the-host-app-depend-on-the-flutter-module&quot;&gt;使主机应用程序依赖Flutter模块的步骤&lt;/a&gt;；Android Studio已为您添加了源依赖项。&lt;/p&gt;
+
+&lt;p&gt;在此支持中，仍然存在一些故障。使用Android Studio 3.5，每次Gradle同步都会导致Flutter模块的Dart支持被删除。每个Dart文件编辑在顶部都有一个按钮可以重新启用它。对于Android Studio 3.6，这不是问题。但是，在3.6中，Gradle同步报告了虚假错误。应该忽略它。（我们正在尝试找到一种方法来消除它。）&lt;/p&gt;
+
+&lt;h3 id=&quot;主机应用程序要求&quot;&gt;主机应用程序要求&lt;/h3&gt;
+
+&lt;p&gt;在尝试将Flutter模块项目连接到主机Android应用之前，请确保您的主机Android应用在您的应用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;build.gradle&lt;/code&gt;文件中的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;android { }&lt;/code&gt; 块下声明了以下源兼容性，例如：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android {
+   // ...
+  compileOptions {
+    sourceCompatibility 1.8 
+    targetCompatibility 1.8
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;使主机应用程序依赖flutter模块&quot;&gt;使主机应用程序依赖Flutter模块&lt;/h3&gt;
+
+&lt;p&gt;有两种方法可以实现此目的：&lt;/p&gt;
+
+&lt;h4 id=&quot;1取决于android存档aar&quot;&gt;1.取决于Android存档（AAR）&lt;/h4&gt;
+
+&lt;p&gt;这会将Flutter库打包为包含AAR和POM工件的通用本地Maven存储库。这使您的团队无需安装Flutter SDK即可构建主机应用程序。然后，您可以从本地或远程存储库中分发工件。&lt;/p&gt;
+
+&lt;p&gt;假设您在构建了Flutter模块&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;some/path/my_flutter&lt;/code&gt;，然后运行：&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;some/path/my_flutter
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;flutter build aar
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;此命令（默认为发布模式）使用以下文件创建&lt;a href=&quot;https://docs.gradle.org/current/userguide/repository_types.html#sub:maven_local&quot;&gt;本地存储库&lt;/a&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build/host/outputs/repo
+└── com
+    └── example
+        └── my_flutter
+            └── flutter_release
+                ├── 1.0
+                │   ├── flutter_release-1.0.aar
+                │   ├── flutter_release-1.0.aar.md5
+                │   ├── flutter_release-1.0.aar.sha1
+                │   ├── flutter_release-1.0.pom
+                │   ├── flutter_release-1.0.pom.md5
+                │   └── flutter_release-1.0.pom.sha1
+                ├── maven-metadata.xml
+                ├── maven-metadata.xml.md5
+                └── maven-metadata.xml.sha1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;要依赖AAR，主机应用必须能够找到这些文件。&lt;/p&gt;
+
+&lt;p&gt;为此，请&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app/build.gradle&lt;/code&gt;在您的主机应用程序中进行编辑，例如它包括本地存储库和依赖项：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// MyApp/app/build.gradle
+
+android {
+  // ...
+}
+
+repositories {
+  maven {
+    url 'some/path/my_flutter/build/host/outputs/repo'
+    // This is relative to the location of the build.gradle file 
+    // if using a relative path. 
+  }
+}
+
+dependencies {
+  // ...
+  releaseCompile ('com.example.my_flutter:flutter_release:1.0@aar') {
+    transitive = true
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;您还可以通过运行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flutter build aar --debug&lt;/code&gt; 然后在宿主应用程序中添加依赖项来构建调试变量：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// MyApp/app/build.gradle
+
+dependencies {
+  // ...
+  debugCompile ('com.example.my_flutter:flutter_debug:1.0@aar') {
+    transitive = true
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;2取决于模块的源代码&quot;&gt;2.取决于模块的源代码&lt;/h4&gt;
+
+&lt;p&gt;这将为您的Android项目和Flutter项目启用一个步骤的构建。当同时处理两个部分时，这很方便，但是您的团队必须安装Flutter SDK才能构建主机应用程序。&lt;/p&gt;
+
+&lt;p&gt;将Flutter模块作为子项目包含在主机应用程序的中&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.gradle&lt;/code&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;sr&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyApp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;settings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;gradle&lt;/span&gt;
+&lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;':app'&lt;/span&gt;                                     &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/ assumed existing content
+setBinding(new Binding([gradle: this]))                                 /&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;evaluate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;                                                      &lt;span class=&quot;sr&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;settingsDir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parentFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;                                               &lt;span class=&quot;sr&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
+  &lt;span class=&quot;s1&quot;&gt;'my_flutter/.android/include_flutter.groovy'&lt;/span&gt;                          &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/ new
+)) 
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;结合和脚本评估允许扑模块&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;include&lt;/code&gt;本身（如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:flutter&lt;/code&gt;）和模块使用任何插件扑（如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:package_info&lt;/code&gt;， &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:video_player&lt;/code&gt;在你的评价方面，等等）&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.gradle&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;implementation&lt;/code&gt;从您的应用程序引入对Flutter模块的依赖：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// MyApp/app/build.gradle
+
+dependencies {
+  implementation project(':flutter')
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;使用java代码中的flutter模块&quot;&gt;使用Java代码中的Flutter模块&lt;/h3&gt;
+
+&lt;h4 id=&quot;flutter的新android嵌入&quot;&gt;Flutter的新Android嵌入&lt;/h4&gt;
+
+&lt;p&gt;如果您是来这里寻找Flutter的新Android嵌入信息的，请参阅&lt;a href=&quot;https://github.com/flutter/flutter/wiki/Adding-Flutter-to-Android&quot;&gt;专用于新嵌入的页面&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;本指南指的是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;io.flutter.facade.*&lt;/code&gt;例如下的类的用法&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;io.flutter.facade.FlutterFragment&lt;/code&gt;。这些类正在被弃用。不推荐使用的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;io.flutter.facade.FlutterFragment&lt;/code&gt;将由较新的代替&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;io.flutter.embedding.android.FlutterFragment&lt;/code&gt;。由于的两个版本&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FlutterFragment&lt;/code&gt;都处于技术预览版中，并且两个版本都不是API稳定的，因此我们建议使用&lt;a href=&quot;https://github.com/flutter/flutter/wiki/Experimental:-Add-Flutter-Fragment&quot;&gt;新的FlutterFragment&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;生成并运行您的应用&quot;&gt;生成并运行您的应用&lt;/h3&gt;
+
+&lt;p&gt;生成和运行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MyApp&lt;/code&gt;的方式与添加Flutter模块依赖项之前的方式完全相同，通常使用Android Studio。编辑，调试和分析Android代码也是如此。&lt;/p&gt;
+
+&lt;h3 id=&quot;热重启重新加载和调试dart代码&quot;&gt;热重启/重新加载和调试Dart代码&lt;/h3&gt;
+
+&lt;p&gt;正在进行全面的IDE集成以支持与混合应用程序的Flutter / Dart代码一起使用。但是基本原理已经通过Flutter命令行工具和Dart Observatory Web用户界面提供。&lt;/p&gt;
+
+&lt;p&gt;连接设备或启动仿真器。然后使Flutter CLI工具监听您的应用程序：&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;some/path/my_flutter
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;flutter attach
+Waiting &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;a connection from Flutter on Nexus 5X...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MyApp&lt;/code&gt;从Android Studio以调试模式启动（或通常采用的任何一种方式）。导航到使用Flutter的应用程序区域。然后回到终端，您应该看到类似于以下内容的输出：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Done.
+Syncing files to device Nexus 5X...                          5.1s
+
+🔥  To hot reload changes while running, press &quot;r&quot;. To hot restart (and rebuild state), press &quot;R&quot;.
+An Observatory debugger and profiler on Nexus 5X is available at: http://127.0.0.1:59556/
+For a more detailed help message, press &quot;h&quot;. To quit, press &quot;q&quot;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;现在，您可以在中编辑Dart代码&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;my_flutter&lt;/code&gt;，并且可以通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;r&lt;/code&gt;在终端中按来重新加载更改。您也可以将上面的URL粘贴到浏览器中，以使用Dart Observatory设置断点，分析内存保留和其他调试任务。&lt;/p&gt;
+
+&lt;p&gt;如果您希望为应用程序指定端口号和/或禁用身份验证代码（不建议使用），则可以使用意图标志来实现，例如&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;--ei observatory-port 12345 --eb disable-service-auth-codes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;可以通过在&lt;a href=&quot;https://developer.android.com/studio/run/rundebugconfig#opening&quot;&gt;Android Studio中&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Launch Flags&lt;/code&gt;&lt;/a&gt;输入这些内容。&lt;/p&gt;
+
+&lt;h2 id=&quot;ios&quot;&gt;iOS&lt;/h2&gt;
+
+&lt;h3 id=&quot;创建flutter模块-1&quot;&gt;创建Flutter模块&lt;/h3&gt;
+
+&lt;p&gt;假设您在处有一个现有的iOS应用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;some/path/MyApp&lt;/code&gt;，并且您希望Flutter项目作为同级项目：&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;some/path/
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;flutter create &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; module my_flutter
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这将创建一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;some/path/my_flutter/&lt;/code&gt;Flutter模块项目，其中包含一些Dart代码以帮助您入门以及一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ios/&lt;/code&gt;隐藏的子文件夹，该子文件夹包装了包含一些Cocoapods和一个辅助Ruby脚本的模块项目。&lt;/p&gt;
+
+&lt;h3 id=&quot;使主机应用程序依赖flutter模块-1&quot;&gt;使主机应用程序依赖Flutter模块&lt;/h3&gt;
+
+&lt;p&gt;下面的描述假定您现有的iOS应用程序具有与要求Xcode版本10.0使用Objective-C生成新的“单视图应用程序”项目所得到的结构类似的结构。如果您现有的应用程序具有不同的文件夹结构和/或现有&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.xcconfig&lt;/code&gt;文件，则可以重用它们，但是可能需要相应地调整下面提到的一些相对路径。&lt;/p&gt;
+
+&lt;p&gt;假定的文件夹结构如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;some/path/
+  my_flutter/
+    lib/main.dart
+    .ios/
+  MyApp/
+    MyApp/
+      AppDelegate.h
+      AppDelegate.m (or swift)
+      :
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;将flutter应用添加到podfile&quot;&gt;将Flutter应用添加到Podfile&lt;/h4&gt;
+
+&lt;p&gt;集成Flutter框架需要使用CocoaPods依赖关系管理器。这是因为Flutter框架需要对my_flutter中可能包含的所有Flutter插件可用。&lt;/p&gt;
+
+&lt;p&gt;如果您在2019年7月30日之前或之前将Flutter添加到现有的iOS应用程序中， &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flutter --version&lt;/code&gt;则&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Flutter 1.8.4-pre.21&lt;/code&gt;可能需要 &lt;a href=&quot;https://github.com/flutter/flutter/wiki/Upgrading-Flutter-added-to-existing-iOS-Xcode-project&quot;&gt;升级环境&lt;/a&gt;。在遵循迁移说明之前，请确保您位于 &lt;a href=&quot;https://github.com/flutter/flutter/wiki/Flutter-build-release-channels&quot;&gt;主频道上&lt;/a&gt;并可以运行 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flutter upgrade&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;如果需要，请访问&lt;a href=&quot;https://cocoapods.org/&quot;&gt;cocoapods.org&lt;/a&gt;，了解如何在您的开发计算机上安装CocoaPods。&lt;/p&gt;
+
+&lt;p&gt;如果您的宿主应用程序（&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MyApp&lt;/code&gt;）已在使用CocoaPods，则只需执行以下操作即可与您的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;my_flutter&lt;/code&gt;应用程序集成：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;将以下几行添加到您的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Podfile&lt;/code&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;n&quot;&gt;flutter_application_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'path/to/my_flutter/'&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;load&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flutter_application_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'.ios'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Flutter'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'podhelper.rb'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;对于每个需要嵌入Flutter的Xcode &lt;a href=&quot;https://guides.cocoapods.org/syntax/podfile.html#target&quot;&gt;目标&lt;/a&gt;，请调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;install_all_flutter_pods(flutter_application_path)&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'MyApp'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;install_all_flutter_pods&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flutter_application_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'MyAppTests'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;install_all_flutter_pods&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flutter_application_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;运行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pod install&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;当您更改扑插件的依赖关系&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;some/path/my_flutter/pubspec.yaml&lt;/code&gt;，你需要运行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flutter pub get&lt;/code&gt;从&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;some/path/my_flutter&lt;/code&gt;刷新列表插件读取的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;podhelper.rb&lt;/code&gt;脚本。然后&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pod install&lt;/code&gt;从再次 运行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;some/path/MyApp&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;该&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;podhelper.rb&lt;/code&gt;脚本将确保您的插件Flutter.framework和App.framework嵌入在您的项目中。&lt;/p&gt;
+
+&lt;p&gt;现在，您应该可以使用来构建项目&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;⌘B&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h4 id=&quot;引擎盖下&quot;&gt;引擎盖下&lt;/h4&gt;
+
+&lt;p&gt;如果您出于某种原因手动执行此操作或调试为什么这些步骤无法执行，请执行以下操作：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Flutter.framework&lt;/code&gt;（引擎库）已为您嵌入到您的应用中。这必须与发行版类型（调试/配置文件/发行版）以及应用程序的架构（arm *，x86_64等）相匹配。CocoaPods将其作为供应商框架引入，并确保将其嵌入到本机应用程序中。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;App.framework&lt;/code&gt;（您的Flutter应用程序二进制文件）已嵌入到您的应用程序中。CocoaPods还将其作为供应商框架引入，并确保将其嵌入到您的本机应用程序中。&lt;/li&gt;
+  &lt;li&gt;任何插件都将作为CocoaPod Pod添加。从理论上讲，也应该可以手动合并它们，但是这些说明在每个插件的pod依赖项上有所不同。&lt;/li&gt;
+  &lt;li&gt;将构建脚本添加到Podfile目标中，以确保所构建的二进制文件与文件夹中实际存在的Dart代码保持最新。它还使用您的Xcode构建配置（Debug，Profile，Release）来嵌入匹配的发行版类型&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Flutter.framework&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;App.framework&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;编写代码以从主机应用程序使用flutterviewcontroller&quot;&gt;编写代码以从主机应用程序使用FlutterViewController&lt;/h3&gt;
+
+&lt;p&gt;正确的位置将取决于您的主机应用程序。这是一个由Xcode 10.0生成的宿主应用程序的空白屏幕有意义的示例。&lt;/p&gt;
+
+&lt;p&gt;首先，将您的应用程序委托声明为的子类&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FlutterAppDelegate&lt;/code&gt;。然后定义FlutterEngine属性，该属性可帮助您注册没有FlutterViewController实例的插件。&lt;/p&gt;
+
+&lt;p&gt;在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AppDelegate.h&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;@import UIKit;
+@import Flutter;
+
+@interface AppDelegate : FlutterAppDelegate
+@property (nonatomic,strong) FlutterEngine *flutterEngine;
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这可以&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AppDelegate.m&lt;/code&gt;非常简单，除非您的主机应用程序需要在此处覆盖其他方法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;@import FlutterPluginRegistrant; // Only if you have Flutter Plugins
+
+#import &quot;AppDelegate.h&quot;
+
+@implementation AppDelegate
+
+// This override can be omitted if you do not have any Flutter Plugins.
+- (BOOL)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  self.flutterEngine = [[FlutterEngine alloc] initWithName:@&quot;io.flutter&quot; project:nil];
+  [self.flutterEngine runWithEntrypoint:nil];
+  [GeneratedPluginRegistrant registerWithRegistry:self.flutterEngine];
+  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果您使用Swift编写代码，则可以在以下代码中执行以下操作&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AppDelegate.swift&lt;/code&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIKit&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Flutter&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;FlutterPluginRegistrant&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Only if you have Flutter Plugins.&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;@UIApplicationMain&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AppDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;FlutterAppDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;flutterEngine&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;FlutterEngine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?;&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Only if you have Flutter plugins.&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didFinishLaunchingWithOptions&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;LaunchOptionsKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]?)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flutterEngine&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;FlutterEngine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;io.flutter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flutterEngine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;withEntrypoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;GeneratedPluginRegistrant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flutterEngine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;didFinishLaunchingWithOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;details style=&quot;box-sizing: border-box; display: block; margin-top: 0px; margin-bottom: 16px;&quot;&gt;&lt;summary style=&quot;box-sizing: border-box; display: list-item; cursor: pointer;&quot;&gt;&lt;font style=&quot;box-sizing: border-box; vertical-align: inherit;&quot;&gt;&lt;font style=&quot;box-sizing: border-box; vertical-align: inherit;&quot;&gt;如果应用程序委托已经从其他地方继承，该怎么办。&lt;/font&gt;&lt;/font&gt;&lt;/summary&gt;&lt;/details&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewController.m&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;#import &quot;AppDelegate.h&quot;
+#import &quot;ViewController.h&quot;
+@import Flutter;
+
+@implementation ViewController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button addTarget:self
+               action:@selector(handleButtonAction)
+     forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@&quot;Press me&quot; forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor blueColor]];
+    button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    [self.view addSubview:button];
+}
+
+- (void)handleButtonAction {
+    FlutterEngine *flutterEngine = [(AppDelegate *)[[UIApplication sharedApplication] delegate] flutterEngine];
+    FlutterViewController *flutterViewController = [[FlutterViewController alloc] initWithEngine:flutterEngine nibName:nil bundle:nil];
+    [self presentViewController:flutterViewController animated:false completion:nil];
+}
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;或者，使用Swift：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewController.swift&lt;/code&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIKit&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Flutter&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;button&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIButton&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UIButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;ButtonType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;custom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;button&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#selector(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;handleButtonAction&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;touchUpInside&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;button&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Press me&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIControl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;State&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;normal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;button&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;80.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;210.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;160.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;40.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;button&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backgroundColor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIColor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blue&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addSubview&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;kd&quot;&gt;@objc&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;handleButtonAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;flutterEngine&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AppDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flutterEngine&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;flutterViewController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;FlutterViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;engine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flutterEngine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;nibName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;present&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flutterViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;现在，您应该能够在模拟器或设备上构建并启动MyApp。按下按钮应使用标准Flutter Demo计数应用程序调出全屏Flutter视图。您可以使用路线在应用程序的不同位置显示不同的小部件，如上面的Android部分所述。要设置路线，请致电&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;目标C：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;[flutterViewController setInitialRoute:@&quot;route1&quot;];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;迅速：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;flutterViewController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setInitialRoute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;route1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在构建之后&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FlutterViewController&lt;/code&gt;（并在展示之前）。&lt;/p&gt;
+
+&lt;p&gt;您可以通过调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SystemNavigator.pop()&lt;/code&gt; Dart代码让Flutter应用自行关闭。&lt;/p&gt;
+
+&lt;h3 id=&quot;生成并运行您的应用-1&quot;&gt;生成并运行您的应用&lt;/h3&gt;
+
+&lt;p&gt;您使用Xcode构建和运行MyApp的方式与添加Flutter模块依赖项之前的方式完全相同。编辑，调试和分析iOS代码也是如此。&lt;/p&gt;
+
+&lt;h3 id=&quot;热重启重新加载和调试dart代码-1&quot;&gt;热重启/重新加载和调试Dart代码&lt;/h3&gt;
+
+&lt;p&gt;连接设备或启动模拟器。然后使Flutter CLI工具监听您的应用程序：&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;some/path/my_flutter
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;flutter attach
+Waiting &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;a connection from Flutter on iPhone X...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MyApp&lt;/code&gt;从Xcode以调试模式启动。导航到使用Flutter的应用程序区域。然后回到终端，您应该看到类似于以下内容的输出：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Done.
+Syncing files to device iPhone X...                          4.7s
+
+🔥  To hot reload changes while running, press &quot;r&quot;. To hot restart (and rebuild state), press &quot;R&quot;.
+An Observatory debugger and profiler on iPhone X is available at: http://127.0.0.1:54741/
+For a more detailed help message, press &quot;h&quot;. To quit, press &quot;q&quot;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;现在，您可以在中编辑Dart代码&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;my_flutter&lt;/code&gt;，并且可以通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;r&lt;/code&gt;在终端中按来重新加载更改。您也可以将上面的URL粘贴到浏览器中，以使用Dart Observatory设置断点，分析内存保留和其他调试任务。&lt;/p&gt;
+
+&lt;h4 id=&quot;调试flutter的特定实例&quot;&gt;调试Flutter的特定实例&lt;/h4&gt;
+
+&lt;p&gt;可以向&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;root isolates&lt;/code&gt;应用程序添加Flutter（）的多个实例。&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flutter attach&lt;/code&gt;默认情况下连接到所有可用的隔离。然后，将从附加的CLI发送的所有命令转发到每个附加的隔离。&lt;/p&gt;
+
+&lt;p&gt;通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;l&lt;/code&gt;从附加的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flutter&lt;/code&gt;CLI工具中键入，列出所有附加的隔离株。如果未指定，将从dart入口点文件和函数名称自动生成隔离名称。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;l&lt;/code&gt;同时显示两个Flutter隔离的应用程序的示例输出：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Connected views:
+  main.dart$main-517591213 (isolates/517591213)
+  main.dart$main-332962855 (isolates/332962855)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;分两步附加到特定的隔离株：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在Dart来源中命名感兴趣的Flutter根分离株。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-dart highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// main.dart&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'dart:ui'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ui&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;ui&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setIsolateDebugName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;debug isolate&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flutter attach&lt;/code&gt;使用该&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--isolate-filter&lt;/code&gt;选项运行。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;flutter attach &lt;span class=&quot;nt&quot;&gt;--isolate-filter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'debug'&lt;/span&gt;
+Waiting &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;a connection from Flutter...
+Done.
+Syncing files to device...      1.1s
+
+🔥  To hot reload changes &lt;span class=&quot;k&quot;&gt;while &lt;/span&gt;running, press &lt;span class=&quot;s2&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; To hot restart &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;and rebuild state&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, press &lt;span class=&quot;s2&quot;&gt;&quot;R&quot;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+An Observatory debugger and profiler is available at: http://127.0.0.1:43343/
+For a more detailed &lt;span class=&quot;nb&quot;&gt;help &lt;/span&gt;message, press &lt;span class=&quot;s2&quot;&gt;&quot;h&quot;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; To detach, press &lt;span class=&quot;s2&quot;&gt;&quot;d&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; to quit, press &lt;span class=&quot;s2&quot;&gt;&quot;q&quot;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+
+Connected view:
+  debug isolate &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;isolates/642101161&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;您可以查看&lt;a href=&quot;https://github.com/flutter/flutter/commit/93573de2165c750fdeefcd2d620e2b8bd494fed6&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;93573de&lt;/code&gt;&lt;/a&gt;更详细的示例。&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;引用自&lt;a href=&quot;https://github.com/flutter/flutter/wiki/Add-Flutter-to-existing-apps&quot;&gt;GitHub Flutter Wiki&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="other" /><summary type="html">将Flutter添加到现有应用</summary></entry><entry><title type="html">NSOperationQueue实现等待多个请求完成后执行操作</title><link href="https://kiritobeater.github.io/nsoperationqueue/" rel="alternate" type="text/html" title="NSOperationQueue实现等待多个请求完成后执行操作" /><published>2018-11-08T00:00:00+00:00</published><updated>2018-11-08T00:00:00+00:00</updated><id>https://kiritobeater.github.io/nsoperationqueue</id><content type="html" xml:base="https://kiritobeater.github.io/nsoperationqueue/">&lt;p&gt;等待多个网络请求完成后再执行操作，网上给的方案一般都是GCD的处理。这里给一个NSOperationQueue的做法，使用Operation的依赖来达到同样的效果。&lt;/p&gt;
+
+&lt;p&gt;示例代码如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ObjectiveC&quot;&gt;    NSURL *url = [NSURL URLWithString:@&quot;http://www.cocoachina.com&quot;];
+    
+    NSOperationQueue *aQueue = [[NSOperationQueue alloc] init];
+    
+    NSBlockOperation *op1 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@&quot;run 1&quot;);
+    }];
+    
+    NSBlockOperation *op2 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@&quot;run 2&quot;);
+    }];
+
+    NSBlockOperation *op3 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@&quot;run 3&quot;);
+    }];
+    
+    NSBlockOperation *finalOp = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@&quot;run final&quot;);
+    }];
+    [finalOp addDependency:op1];
+    [finalOp addDependency:op2];
+    [finalOp addDependency:op3];
+    [aQueue addOperation:finalOp];
+    
+    NSLog(@&quot;rep 1&quot;);
+    [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@&quot;res 1&quot;);
+        [aQueue addOperation:op1];
+    }] resume];
+    
+    NSLog(@&quot;rep 2&quot;);
+    [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@&quot;res 2&quot;);
+
+        [aQueue addOperation:op2];
+    }] resume];
+
+    NSLog(@&quot;rep 3&quot;);
+    [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@&quot;res 3&quot;);
+        [aQueue addOperation:op3];
+    }] resume];
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;控制台输出：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ObjectiveC&quot;&gt;rep 1
+rep 2
+rep 3
+res 1
+run 1
+res 2
+run 2
+res 3
+run 3
+run final
+&lt;/code&gt;&lt;/pre&gt;</content><author><name></name></author><category term="blog" /><category term="iOS" /><category term="Objective-C" /><summary type="html">等待多个网络请求完成后再执行操作，网上给的方案一般都是GCD的处理。这里给一个NSOperationQueue的做法，使用Operation的依赖来达到同样的效果。</summary></entry><entry><title type="html">Vim 常用命令</title><link href="https://kiritobeater.github.io/Vim-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="alternate" type="text/html" title="Vim 常用命令" /><published>2018-05-21T19:12:00+00:00</published><updated>2018-05-21T19:12:00+00:00</updated><id>https://kiritobeater.github.io/Vim%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4</id><content type="html" xml:base="https://kiritobeater.github.io/Vim-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">&lt;p&gt;dd
+删除当前行&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="Other" /><summary type="html">dd 删除当前行</summary></entry><entry><title type="html">Git 日常命令</title><link href="https://kiritobeater.github.io/Git-%E6%97%A5%E5%B8%B8%E5%91%BD%E4%BB%A4/" rel="alternate" type="text/html" title="Git 日常命令" /><published>2018-05-09T19:42:00+00:00</published><updated>2018-05-09T19:42:00+00:00</updated><id>https://kiritobeater.github.io/Git%20%E6%97%A5%E5%B8%B8%E5%91%BD%E4%BB%A4</id><content type="html" xml:base="https://kiritobeater.github.io/Git-%E6%97%A5%E5%B8%B8%E5%91%BD%E4%BB%A4/">&lt;p&gt;Git是目前世界上最先进的分布式版本控制系统。&lt;/p&gt;
+
+&lt;p&gt;虽然目前有很多，既好用，又漂亮的GUI客户端，但是在一些稍显复杂的情况下，免不了还是要使用下Git命令。况且在了解Git命令之后，使用起Git来更能够做到“知其然，知其所以然”。这里只是写一下平时常用的Git命令，更加详尽的还是在&lt;a href=&quot;https://git-scm.com/book/zh/v2&quot;&gt;Git官网&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git add &amp;lt;pathspec&amp;gt; &lt;/code&gt;   添加文件到暂存区&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git reset [-q] [&amp;lt;tree-ish&amp;gt;] [--] &amp;lt;paths&amp;gt;...&lt;/code&gt; 从暂存区移除文件&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git checkout [&amp;lt;tree-ish&amp;gt;] [--] &amp;lt;pathspec&amp;gt;...&lt;/code&gt; 取消文件的更改&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git reset --hard&lt;/code&gt; 取消所有文件的更改&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git commit -m &amp;lt;msg&amp;gt;&lt;/code&gt;   添加一个提交&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git push&lt;/code&gt; 推送到远程仓库&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git push -f&lt;/code&gt; 强制推送到远程仓库，覆盖远程仓库的提交记录&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git status -s&lt;/code&gt;检查当前文件状态, -s 简短一些&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git checkout [-q] [-f] [-m] [[-b|-B|--orphan] &amp;lt;new_branch&amp;gt;] [&amp;lt;start_point&amp;gt;]&lt;/code&gt; 切换分支&lt;/p&gt;
+
+&lt;h4 id=&quot;git-log&quot;&gt;git log&lt;/h4&gt;
+
+&lt;p&gt;推荐的Log命令&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git log --oneline --graph --all&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--oneline&lt;/code&gt;: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--pretty=oneline --abbrev-commit&lt;/code&gt; 的简化用法，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--pretty=onelineoneline&lt;/code&gt; 将每个提交放在一行显示, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--abbrev-commit&lt;/code&gt;仅显示 SHA-1 的前几个字符，而非所有的 40 个字符&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--graph&lt;/code&gt;: 显示 ASCII 图形表示的分支合并历史&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--all&lt;/code&gt;: 显示所有分支，储藏的状态&lt;/p&gt;
+
+&lt;h4 id=&quot;git-remote&quot;&gt;git remote&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git remote add [-t &amp;lt;branch&amp;gt;] [-m &amp;lt;master&amp;gt;] [-f] [--[no-]tags] [--mirror=&amp;lt;fetch|push&amp;gt;] &amp;lt;name&amp;gt; &amp;lt;url&amp;gt;&lt;/code&gt; 添加远程仓库&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git remote remove &amp;lt;name&amp;gt;&lt;/code&gt; 移除远程仓库&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git remote -v&lt;/code&gt; 查看当前远程仓库&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="Git" /><summary type="html">Git是目前世界上最先进的分布式版本控制系统。</summary></entry><entry><title type="html">Swift 原生JSON和Model转换</title><link href="https://kiritobeater.github.io/Swift-%E5%8E%9F%E7%94%9FJSON%E5%92%8CModel%E8%BD%AC%E6%8D%A2/" rel="alternate" type="text/html" title="Swift 原生JSON和Model转换" /><published>2017-08-12T22:00:00+00:00</published><updated>2017-08-12T22:00:00+00:00</updated><id>https://kiritobeater.github.io/Swift%20%E5%8E%9F%E7%94%9FJSON%E5%92%8CModel%E8%BD%AC%E6%8D%A2</id><content type="html" xml:base="https://kiritobeater.github.io/Swift-%E5%8E%9F%E7%94%9FJSON%E5%92%8CModel%E8%BD%AC%E6%8D%A2/">&lt;p&gt;Apple 在 Swift 4 的 Foundation 的模块中添加了对 JSON 解析成Model的原生支持。&lt;/p&gt;
+
+&lt;p&gt;虽然之前也有&lt;a href=&quot;https://github.com/Hearst-DD/ObjectMapper&quot;&gt;ObjectMapper&lt;/a&gt;和&lt;a href=&quot;https://github.com/SwiftyJSON/SwiftyJSON&quot;&gt;SwiftyJSON&lt;/a&gt;这样的解决方案，但是Swift 4中添加了原生支持还是不免让人兴奋，使用起来也相对方便了许多。&lt;/p&gt;
+
+&lt;h3 id=&quot;简单使用&quot;&gt;简单使用&lt;/h3&gt;
+
+&lt;p&gt;如果你的 JSON 数据结构和你使用的 Model 对象结构一致的话，那么解析过程将会非常简单。只需要让Model声明 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Codable&lt;/code&gt; 协议即可。&lt;/p&gt;
+
+&lt;p&gt;JSON数据：&lt;/p&gt;
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;userInfos&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;userName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;小名&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;age&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;178.56&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;sex&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;userName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;小方&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;age&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;162.56&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;sex&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Model对象：&lt;/p&gt;
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UserList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;userInfos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UserInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UserInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;userName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Float&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;JSON转Model：&lt;/p&gt;
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;jsonDecoder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;JSONDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;modelObject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsonDecoder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UserList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsonData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Model转JSON：&lt;/p&gt;
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;jsonEncoder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;JSONEncoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;jsonData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsonEncoder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;modelObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;关于 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Codable&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;/// A type that can convert itself into and out of an external representation.&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;typealias&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Decodable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Encodable&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Codable&lt;/code&gt; 同时声明了 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Decodable&lt;/code&gt; 和 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Encodable&lt;/code&gt; 两个协议，只需要单向处理的话可以只声明其中一个协议。&lt;/p&gt;
+
+&lt;p&gt;需要注意的是，使用时必须保证 JSON 数据结构和你使用的 Model 对象结构一致，任何不一致都会导致解析失败。&lt;/p&gt;
+
+&lt;p&gt;但是实际开发过程中，往往不会总是这样满足我们的需要，有时也需要我们对解析过程做一些改变。&lt;/p&gt;
+
+&lt;h3 id=&quot;自定义键值名&quot;&gt;自定义键值名&lt;/h3&gt;
+
+&lt;p&gt;为了保持风格一致，我们有时候不得不改变key成为我们需要的key值。&lt;/p&gt;
+
+&lt;p&gt;仍然使用上面的例子，现在我们把Model中的key &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;height&lt;/code&gt; 改为 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bodyHeight&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UserList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;userInfos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UserInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UserInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;userName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bodyHeight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Float&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
+        
+        &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CodingKeys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CodingKey&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userName&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bodyHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;height&quot;&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sex&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;格式处理&quot;&gt;格式处理&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSONEncoder&lt;/code&gt; 和 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSONDecoder&lt;/code&gt; 本身也提供了对时间格式的处理，Data的处理，浮点不匹配的处理。可以根据自己的需要设置自己想要的格式。&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;c1&quot;&gt;/// The strategy to use in decoding dates. Defaults to `.deferredToDate`.&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;dateDecodingStrategy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;JSONDecoder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;DateDecodingStrategy&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;/// The strategy to use in decoding binary data. Defaults to `.base64`.&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;dataDecodingStrategy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;JSONDecoder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;DataDecodingStrategy&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;/// The strategy to use in decoding non-conforming numbers. Defaults to `.throw`.&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;nonConformingFloatDecodingStrategy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;JSONDecoder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;NonConformingFloatDecodingStrategy&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSONEncoder&lt;/code&gt; 在生成 JSON 的时候默认的格式是&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{&quot;userInfos&quot;:[{&quot;age&quot;:18,&quot;sex&quot;:true,&quot;height&quot;:178.55999755859375,&quot;userName&quot;:&quot;小名&quot;},{&quot;age&quot;:18,&quot;sex&quot;:false,&quot;height&quot;:162.55999755859375,&quot;userName&quot;:&quot;小方&quot;}]}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果想要提高阅读体验, 可以设置属性 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;outputFormatting&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kd&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;outputFormatting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;JSONEncoder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;OutputFormatting&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;jsonEncoder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;JSONEncoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jsonEncoder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outputFormatting&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prettyPrinted&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;然后生成的JSON格式就会变成这样&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;userInfos&quot; : [
+    {
+      &quot;age&quot; : 18,
+      &quot;sex&quot; : true,
+      &quot;height&quot; : 178.55999755859375,
+      &quot;userName&quot; : &quot;小名&quot;
+    },
+    {
+      &quot;age&quot; : 18,
+      &quot;sex&quot; : false,
+      &quot;height&quot; : 162.55999755859375,
+      &quot;userName&quot; : &quot;小方&quot;
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;json中-没有-model-所需要的-key&quot;&gt;JSON中 没有 Model 所需要的 Key&lt;/h3&gt;
+
+&lt;p&gt;如果JSON的数据结构中，有些 Key - Value 不一定出现，Model中对应的要实用可选类型&lt;/p&gt;
+
+&lt;p&gt;JSON数据：&lt;/p&gt;
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;userInfos&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;userName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;小名&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;age&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;sex&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;userName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;小方&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;age&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;162.56&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;sex&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Model对象：&lt;/p&gt;
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UserList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;userInfos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UserInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UserInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;userName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;参考&quot;&gt;参考:&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://developer.apple.com/documentation/foundation/archives_and_serialization/using_json_with_custom_types&quot;&gt;Using JSON with Custom Types&lt;/a&gt; 附 &lt;a href=&quot;https://docs-assets.developer.apple.com/published/3025f0dbf0/UsingJSONwithCustomTypes.zip&quot;&gt;Apple Playground&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bignerdcoding.com/archives/37.html&quot;&gt;Swift 4 JSON 解析指南&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="blog" /><category term="Swift" /><summary type="html">Apple 在 Swift 4 的 Foundation 的模块中添加了对 JSON 解析成Model的原生支持。</summary></entry><entry><title type="html">RxSwift的Result处理</title><link href="https://kiritobeater.github.io/RxSwift%E7%9A%84Result%E5%A4%84%E7%90%86/" rel="alternate" type="text/html" title="RxSwift的Result处理" /><published>2017-07-30T11:05:00+00:00</published><updated>2017-07-30T11:05:00+00:00</updated><id>https://kiritobeater.github.io/RxSwift%E7%9A%84Result%E5%A4%84%E7%90%86</id><content type="html" xml:base="https://kiritobeater.github.io/RxSwift%E7%9A%84Result%E5%A4%84%E7%90%86/">&lt;p&gt;在使用RxSwift的过程中，相信各位都遇到过一个可订阅的对象因为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sendError&lt;/code&gt;而导致整个事件链释放的问题，尤其是在网络请求中。例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Swift&quot;&gt;button.rx.tap.flatMapFirst { netRequestObservable }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;一旦请求失败，button再次点击就不会再发出网络请求了。&lt;/p&gt;
+
+&lt;p&gt;查找别人的解决方案，你会发现一种Result的处理方式。
+简单来说就是将Error包裹在sendNext中，在.onNext中处理Error，这样既保留了sendError时整个事件链直接结束的优点，又确保了事件链不会因此而Dispose掉。
+他们那边都介绍的很详尽，此处不再赘述。&lt;/p&gt;
+
+&lt;p&gt;本文提供一个简单的处理方式：&lt;/p&gt;
+
+&lt;p&gt;使用Alamofire的Result类来对ObservableType 进行 extension。无需自己实现Result类。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Swift&quot;&gt;import UIKit
+import RxSwift
+import Alamofire
+
+public extension ObservableType {
+    public func mapResult() -&amp;gt; Observable&amp;lt;Alamofire.Result&amp;lt;E&amp;gt;&amp;gt; {
+        return flatMap { Observable.just( Alamofire.Result.success($0)) }
+            .catchError { Observable.just( Alamofire.Result.failure($0)) }
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用的时候，在适当的时候（一般是订阅之前）.mapResult 即可&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Swift&quot;&gt;_ = button.rx.tap.flatMapFirst { netRequestObservable }.mapResult()
+    .subscribe(
+        onNext: { [weak self] (result) in
+            if result.isSuccess {
+                print(result.value)
+            } else {
+                print(result.error)
+            }
+        }
+    )
+&lt;/code&gt;&lt;/pre&gt;</content><author><name></name></author><category term="blog" /><category term="iOS" /><category term="RxSwift" /><summary type="html">在使用RxSwift的过程中，相信各位都遇到过一个可订阅的对象因为sendError而导致整个事件链释放的问题，尤其是在网络请求中。例如： button.rx.tap.flatMapFirst { netRequestObservable } 一旦请求失败，button再次点击就不会再发出网络请求了。</summary></entry><entry><title type="html">iOS 系统自带调试悬浮窗</title><link href="https://kiritobeater.github.io/iOS%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%B8%A6%E8%B0%83%E8%AF%95%E6%82%AC%E6%B5%AE%E7%AA%97/" rel="alternate" type="text/html" title="iOS 系统自带调试悬浮窗" /><published>2017-07-24T23:07:00+00:00</published><updated>2017-07-24T23:07:00+00:00</updated><id>https://kiritobeater.github.io/iOS%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%B8%A6%E8%B0%83%E8%AF%95%E6%82%AC%E6%B5%AE%E7%AA%97</id><content type="html" xml:base="https://kiritobeater.github.io/iOS%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%B8%A6%E8%B0%83%E8%AF%95%E6%82%AC%E6%B5%AE%E7%AA%97/">&lt;h3 id=&quot;ios-系统自带调试悬浮窗uidebugginginformationoverlay&quot;&gt;iOS 系统自带调试悬浮窗UIDebuggingInformationOverlay&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;我们经常使用各种调试工具，或者开源库来支持悬浮窗调试信息，但苹果的私有方法就提供了调试窗口&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;展示调试悬浮窗&quot;&gt;展示调试悬浮窗&lt;/h4&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#if DEBUG&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;overlayClass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSClassFromString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;UIDebuggingInformationOverlay&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIWindow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Type&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;overlayClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;perform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;NSSelectorFromString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;prepareDebuggingOverlay&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#endif&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;能做什么&quot;&gt;能做什么&lt;/h4&gt;
+&lt;h5 id=&quot;viewhierarchy&quot;&gt;ViewHierarchy&lt;/h5&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;查看window 的 View 嵌套关系。点击右侧感叹号可以查看View的一些信息。并且可以控制View在屏幕上显示的透明度。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;vc-hierarchy&quot;&gt;VC Hierarchy&lt;/h5&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;查看激活的 ViewController 的 childrenViewCotroller 的结构树和相关属性&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;ivar-explorer&quot;&gt;Ivar Explorer&lt;/h5&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;查看 UIApplication 的成员属性&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;measure&quot;&gt;Measure&lt;/h5&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;测量组件大小。选择垂直还是水平方式，然后手指在悬浮窗外的屏幕上拖动即可。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;spec-compare&quot;&gt;Spec Compare&lt;/h5&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;效果对比。从相册读取一个图片（你必须在info.plist 先配置相册权限NSPhotoLibraryUsageDescription）和当前界面对比。手指在屏幕（悬浮窗外部）上下滑动，可以改变图片等透明度。双击退出。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;system-color-audit&quot;&gt;System Color Audit&lt;/h5&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;还知道这个怎么用。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;参考：&lt;a href=&quot;http://www.jianshu.com/p/736353b5cfaf?utm_campaign=hugo&amp;amp;utm_medium=reader_share&amp;amp;utm_content=note&amp;amp;utm_source=weixin-friends&amp;amp;from=singlemessage&amp;amp;isappinstalled=1&quot;&gt;震惊！iOS 系统居然自带悬浮窗口调试工具 —— Jinkey 原创&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="iOS" /><summary type="html">iOS 系统自带调试悬浮窗UIDebuggingInformationOverlay</summary></entry><entry><title type="html">Objective-C代码规范</title><link href="https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" rel="alternate" type="text/html" title="Objective-C代码规范" /><published>2016-05-03T23:07:00+00:00</published><updated>2016-05-03T23:07:00+00:00</updated><id>https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83</id><content type="html" xml:base="https://kiritobeater.github.io/objective-c%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">&lt;p&gt;Objective-C是一门面向对象的动态编程语言，主要用于编写iOS和Mac应用程序。关于Objective-C的编码规范，苹果和谷歌以及raywenderlich都已经有很好的总结：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html&quot;&gt;Apple Coding Guidelines for Cocoa&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://google-styleguide.googlecode.com/svn/trunk/objcguide.xml?showone=Line_Length#Line_Length&quot;&gt;Google Objective-C Style Guide&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/raywenderlich/objective-c-style-guide#language&quot;&gt;The official raywenderlich.com Objective-C style guide&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;##语言&lt;/p&gt;
+
+&lt;p&gt;应该使用&lt;strong&gt;US英语&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;推荐：&lt;/p&gt;
+
+&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;UIColor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;myColor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIColor&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;whiteColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;不推荐：&lt;/p&gt;
+
+&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;UIColor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;myColour&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIColor&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;whiteColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;UIColor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;yanse&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIColor&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;whiteColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;##代码组织&lt;/p&gt;
+
+&lt;p&gt;在函数分组和protocol/delegate实现中使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#pragma mark -&lt;/code&gt;来分类方法，要遵循以下一般结构：&lt;/p&gt;
+
+&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#pragma mark - 声明周期
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instancetype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;init&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dealloc&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDidLoad&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewWillAppear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BOOL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;animated&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;didReceiveMemoryWarning&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;cp&quot;&gt;#pragma mark - IBActions
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IBAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;submitData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sender&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;cp&quot;&gt;#pragma mark - UITextFieldDelegate
+#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDelegate
+&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;##pragma mark - 获取网络数据
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;##代码格式&lt;/p&gt;
+
+&lt;p&gt;###使用空格而不是制表符Tab&lt;/p&gt;
+
+&lt;p&gt;不要在工程里使用Tab键，使用空格来进行缩进。在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Xcode &amp;gt; Preferences &amp;gt; Text Editing&lt;/code&gt;将Tab和自动缩进都设置为&lt;strong&gt;4&lt;/strong&gt;个空格。&lt;/p&gt;
+
+&lt;p&gt;###函数的书写&lt;/p&gt;
+
+&lt;p&gt;一个典型的Objective-C函数应该是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (void)writeVideoFrameWithData:(NSData *)frameData timeStamp:(int)timeStamp {
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(void)&lt;/code&gt;之间应该有一个空格，第一个大括号&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;{&lt;/code&gt;的位置在函数所在行的末尾，同样应该有一个空格。&lt;/p&gt;
+
+&lt;p&gt;如果一个函数有特别多的参数或者名称很长，应该将其按照&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:&lt;/code&gt;来对齐分行显示：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (id)initWithModel:(IPCModle)model
+       ConnectType:(IPCConnectType)connectType
+        Resolution:(IPCResolution)resolution
+          AuthName:(NSString *)authName
+          Password:(NSString *)password
+               MAC:(NSString *)mac
+              AzIp:(NSString *)az_ip
+             AzDns:(NSString *)az_dns
+             Token:(NSString *)token
+             Email:(NSString *)email
+          Delegate:(id&amp;lt;IPCConnectHandlerDelegate&amp;gt;)delegate;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在分行时，如果第一段名称过短，后续名称可以以Tab的长度（4个空格）为单位进行缩进：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (void)short:(GTMFoo *)theFoo
+        longKeyword:(NSRect)theRect
+  evenLongerKeyword:(float)theInterval
+              error:(NSError **)theError {
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;###函数调用&lt;/p&gt;
+
+&lt;p&gt;函数调用的格式和书写差不多，可以按照函数的长短来选择写在一行或者分成多行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//写在一行
+[myObject doFooWith:arg1 name:arg2 error:arg3];
+
+//分行写，按照':'对齐
+[myObject doFooWith:arg1
+               name:arg2
+              error:arg3];
+
+//第一段名称过短的话后续可以进行缩进
+[myObj short:arg1
+          longKeyword:arg2
+    evenLongerKeyword:arg3
+                error:arg4];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不推荐：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//错误，要么写在一行，要么全部分行
+[myObject doFooWith:arg1 name:arg2
+              error:arg3];
+[myObject doFooWith:arg1
+               name:arg2 error:arg3];
+
+//错误，按照':'来对齐，而不是关键字
+[myObject doFooWith:arg1
+          name:arg2
+          error:arg3];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###Block&lt;/p&gt;
+
+&lt;p&gt;根据block的长度，有不同的书写规则：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;较短的block可以写在一行内。&lt;/li&gt;
+  &lt;li&gt;如果分行显示的话，block的右括号&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;}&lt;/code&gt;应该和调用block那行代码的第一个非空字符对齐。&lt;/li&gt;
+  &lt;li&gt;block内的代码采用&lt;strong&gt;4个空格&lt;/strong&gt;的缩进。&lt;/li&gt;
+  &lt;li&gt;如果block过于庞大，应该单独声明成一个变量来使用。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;^&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(&lt;/code&gt;之间，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;^&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;{&lt;/code&gt;之间都没有空格，参数列表的右括号&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;)&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;{&lt;/code&gt;之间有一个空格。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//较短的block写在一行内
+[operation setCompletionBlock:^{ [self onOperationDone]; }];
+
+//分行书写的block，内部使用4空格缩进
+[operation setCompletionBlock:^{
+    [self.delegate newDataAvailable];
+}];
+
+//使用C语言API调用的block遵循同样的书写规则
+dispatch_async(_fileIOQueue, ^{
+    NSString* path = [self sessionFilePath];
+    if (path) {
+      // ...
+    }
+});
+
+//较长的block关键字可以缩进后在新行书写，注意block的右括号'}'和调用block那行代码的第一个非空字符对齐
+[[SessionService sharedService]  
+	loadWindowWithCompletionBlock:^(SessionWindow *window) {
+		if (window) {
+			[self windowDidLoad:window];
+		} else {
+			[self errorLoadingWindow];
+		}
+	}];
+
+//较长的block参数列表同样可以缩进后在新行书写
+[[SessionService sharedService]
+	loadWindowWithCompletionBlock:
+		^(SessionWindow *window) {
+			if (window) {
+				[self windowDidLoad:window];
+			} else {
+				[self errorLoadingWindow];
+			}
+		}];
+
+//庞大的block应该单独定义成变量使用
+void (^largeBlock)(void) = ^{
+    // ...
+};
+[_operationQueue addOperationWithBlock:largeBlock];
+
+//在一个调用中使用多个block，注意到他们不是像函数那样通过':'对齐的，而是同时进行了4个空格的缩进
+[myObject doSomethingWith:arg1
+    firstBlock:^(Foo *a) {
+        // ...
+    }
+    secondBlock:^(Bar *b) {
+        // ...
+    }];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###数据结构的语法糖&lt;/p&gt;
+
+&lt;p&gt;应该使用可读性更好的语法糖来构造&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSArray&lt;/code&gt;，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSDictionary&lt;/code&gt;等数据结构，避免使用冗长的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alloc&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;init&lt;/code&gt;方法。&lt;/p&gt;
+
+&lt;p&gt;如果构造代码写在一行，需要在括号两端留有一个空格，使得被构造的元素于与构造语法区分开来：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//正确，在语法糖的&quot;[]&quot;或者&quot;{}&quot;两端留有空格
+NSArray *array = @[ [foo description], @&quot;Another String&quot;, [bar description] ];
+NSDictionary *dict = @{ NSForegroundColorAttributeName : [NSColor redColor] };
+
+//不正确，不留有空格降低了可读性
+NSArray* array = @[[foo description], [bar description]];
+NSDictionary* dict = @{NSForegroundColorAttributeName: [NSColor redColor]};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果构造代码不写在一行内，构造元素需要使用&lt;strong&gt;两个空格&lt;/strong&gt;来进行缩进，右括号&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;]&lt;/code&gt;或者&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;}&lt;/code&gt;写在新的一行，并且与调用语法糖那行代码的第一个非空字符对齐：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;NSArray *array = @[
+  @&quot;This&quot;,
+  @&quot;is&quot;,
+  @&quot;an&quot;,
+  @&quot;array&quot;
+];
+
+NSDictionary *dictionary = @{
+  NSFontAttributeName : [NSFont fontWithName:@&quot;Helvetica-Bold&quot; size:12],
+  NSForegroundColorAttributeName : fontColor
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;构造字典时，字典的Key和Value与中间的冒号&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:&lt;/code&gt;都要留有一个空格，多行书写时，也可以将Value对齐：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//正确，冒号':'前后留有一个空格
+NSDictionary *option1 = @{
+  NSFontAttributeName : [NSFont fontWithName:@&quot;Helvetica-Bold&quot; size:12],
+  NSForegroundColorAttributeName : fontColor
+};
+
+//正确，按照Value来对齐
+NSDictionary *option2 = @{
+  NSFontAttributeName :            [NSFont fontWithName:@&quot;Arial&quot; size:12],
+  NSForegroundColorAttributeName : fontColor
+};
+
+//错误，冒号前应该有一个空格
+NSDictionary *wrong = @{
+  AKey:       @&quot;b&quot;,
+  BLongerKey: @&quot;c&quot;,
+};
+
+//错误，每一个元素要么单独成为一行，要么全部写在一行内
+NSDictionary *alsoWrong= @{ AKey : @&quot;a&quot;,
+                            BLongerKey : @&quot;b&quot; };
+
+//错误，在冒号前只能有一个空格，冒号后才可以考虑按照Value对齐
+NSDictionary *stillWrong = @{
+  AKey       : @&quot;b&quot;,
+  BLongerKey : @&quot;c&quot;,
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;##命名规范&lt;/p&gt;
+
+&lt;p&gt;###基本原则&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;仿照 Cocoa 风格来，使用长命名风格。&lt;/li&gt;
+  &lt;li&gt;变量命名推荐的命名语素顺序是：最开头是命名空间简写，然后越重要、区别度越大的语素越要往前放。经典的结构是：作用范围+限定修饰+类型。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;####清晰&lt;/p&gt;
+
+&lt;p&gt;命名应该尽可能的清晰和简洁，但在Objective-C中，&lt;strong&gt;清晰比简洁更重要&lt;/strong&gt;。由于Xcode强大的自动补全功能，我们不必担心名称过长的问题。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//清晰
+insertObject:atIndex:
+
+//不清晰，insert的对象类型和at的位置属性没有说明
+insert:at:
+
+//推荐：
+UIButton *settingsButton;
+
+//不推荐：
+UIButton *setBut;
+
+//清晰
+removeObjectAtIndex:
+
+//不清晰，remove的对象类型没有说明，参数的作用没有说明
+remove:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不要使用单词的简写，拼写出完整的单词：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//清晰
+destinationSelection
+setBackgroundColor:
+
+//不清晰，不要使用简写
+destSel
+setBkgdColor:
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然而，有部分单词简写在Objective-C编码过程中是非常常用的，以至于成为了一种规范，这些简写可以在代码中直接使用，下面列举了部分：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;alloc   == Allocate					max    == Maximum
+alt     == Alternate				min    == Minimum
+app     == Application				msg    == Message
+calc    == Calculate				nib    == Interface Builder archive
+dealloc == Deallocate				pboard == Pasteboard
+func    == Function					rect   == Rectangle
+horiz   == Horizontal				Rep    == Representation (used in class name such as NSBitmapImageRep).
+info    == Information				temp   == Temporary
+init    == Initialize				vert   == Vertical
+int     == Integer
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;命名方法或者函数时要避免歧义&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//有歧义，是返回sendPort还是send一个Port？
+sendPort
+
+//有歧义，是返回一个名字属性的值还是display一个name的动作？
+displayName
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;####一致性&lt;/p&gt;
+
+&lt;p&gt;整个工程的命名风格要保持一致性，最好和苹果SDK的代码保持统一。不同类中完成相似功能的方法应该叫一样的名字，比如我们总是用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;count&lt;/code&gt;来返回集合的个数，不能在A类中使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;count&lt;/code&gt;而在B类中使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getNumber&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;###使用前缀（命名空间）&lt;/p&gt;
+
+&lt;p&gt;如果代码需要打包成Framework给别的工程使用，或者工程项目非常庞大，需要拆分成不同的模块，使用命名前缀是非常有用的。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;前缀由大写的字母缩写组成，比如Cocoa中&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NS&lt;/code&gt;前缀代表Founation框架中的类，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IB&lt;/code&gt;则代表Interface Builder框架。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;可以在为类、协议、函数、常量以及typedef宏命名的时候使用前缀，但注意&lt;strong&gt;不要&lt;/strong&gt;为成员变量或者方法使用前缀，因为他们本身就包含在类的命名空间内。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;命名前缀的时候不要和苹果SDK框架冲突。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###命名类和协议（Class&amp;amp;Protocol）&lt;/p&gt;
+
+&lt;p&gt;类名以大写字母开头，应该包含一个&lt;em&gt;名词&lt;/em&gt;来表示它代表的对象类型，同时可以加上必要的前缀，比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSString&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSDate&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSScanner&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSApplication&lt;/code&gt;等等。&lt;/p&gt;
+
+&lt;p&gt;而协议名称应该清晰地表示它所执行的行为，而且要和类名区别开来，所以通常使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ing&lt;/code&gt;词尾来命名一个协议，比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSCopying&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSLocking&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;有些协议本身包含了很多不相关的功能，主要用来为某一特定类服务，这时候可以直接用类名来命名这个协议，比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSObject&lt;/code&gt;协议，它包含了id对象在生存周期内的一系列方法。&lt;/p&gt;
+
+&lt;p&gt;###命名头文件（Headers）&lt;/p&gt;
+
+&lt;p&gt;源码的头文件名应该清晰地暗示它的功能和包含的内容：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果头文件内只定义了单个类或者协议，直接用类名或者协议名来命名头文件，比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSLocale.h&lt;/code&gt;定义了&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSLocale&lt;/code&gt;类。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果头文件内定义了一系列的类、协议、类别，使用其中最主要的类名来命名头文件，比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSString.h&lt;/code&gt;定义了&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSString&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSMutableString&lt;/code&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;每一个Framework都应该有一个和框架同名的头文件，包含了框架中所有公共类头文件的引用，比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Foundation.h&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Framework中有时候会实现在别的框架中类的类别扩展，这样的文件通常使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;被扩展的框架名&lt;/code&gt;+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Additions&lt;/code&gt;的方式来命名，比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSBundleAdditions.h&lt;/code&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###命名方法（Methods）&lt;/p&gt;
+
+&lt;p&gt;Objective-C的方法名通常都比较长，这是为了让程序有更好地可读性，按苹果的说法&lt;em&gt;“好的方法名应当可以以一个句子的形式朗读出来”&lt;/em&gt;。&lt;/p&gt;
+
+&lt;p&gt;方法一般以小写字母打头，每一个后续的单词首字母大写，方法名中不应该有标点符号（&lt;em&gt;包括下划线&lt;/em&gt;），有两个例外：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;可以用一些通用的大写字母缩写打头方法，比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PDF&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TIFF&lt;/code&gt;等。&lt;/li&gt;
+  &lt;li&gt;可以用带下划线的前缀来命名私有方法或者类别中的方法。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果方法表示让对象执行一个动作，使用动词打头来命名，注意不要使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;do&lt;/code&gt;，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;does&lt;/code&gt;这种多余的关键字，动词本身的暗示就足够了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//动词打头的方法表示让对象执行一个动作
+- (void)invokeWithTarget:(id)target;
+- (void)selectTabViewItem:(NSTabViewItem *)tabViewItem;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果方法是为了获取对象的一个属性值，直接用属性名称来命名这个方法，注意不要添加&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get&lt;/code&gt;或者其他的动词前缀：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//正确，使用属性名来命名方法
+- (NSSize)cellSize;
+
+//错误，添加了多余的动词前缀
+- (NSSize)calcCellSize;
+- (NSSize)getCellSize;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;对于有多个参数的方法，务必在每一个参数前都添加关键词，关键词应当清晰说明参数的作用：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//正确，保证每个参数都有关键词修饰
+- (void)sendAction:(SEL)aSelector toObject:(id)anObject forAllCells:(BOOL)flag;
+
+//错误，遗漏关键词
+- (void)sendAction:(SEL)aSelector :(id)anObject :(BOOL)flag;
+
+//正确
+- (id)viewWithTag:(NSInteger)aTag;
+
+//错误，关键词的作用不清晰
+- (id)taggedView:(int)aTag;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不要用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;and&lt;/code&gt;来连接两个参数，通常&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;and&lt;/code&gt;用来表示方法执行了两个相对独立的操作（&lt;em&gt;从设计上来说，这时候应该拆分成两个独立的方法&lt;/em&gt;）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//错误，不要使用&quot;and&quot;来连接参数
+- (int)runModalForDirectory:(NSString *)path andFile:(NSString *)name andTypes:(NSArray *)fileTypes;
+
+//正确，使用&quot;and&quot;来表示两个相对独立的操作
+- (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;方法的参数命名也有一些需要注意的地方:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;和方法名类似，参数的第一个字母小写，后面的每一个单词首字母大写&lt;/li&gt;
+  &lt;li&gt;不要再方法名中使用类似&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pointer&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ptr&lt;/code&gt;这样的字眼去表示指针，参数本身的类型足以说明&lt;/li&gt;
+  &lt;li&gt;不要使用只有一两个字母的参数名&lt;/li&gt;
+  &lt;li&gt;不要使用简写，拼出完整的单词&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;下面列举了一些常用参数名：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;...action:(SEL)aSelector
+...alignment:(int)mode
+...atIndex:(int)index
+...content:(NSRect)aRect
+...doubleValue:(double)aDouble
+...floatValue:(float)aFloat
+...font:(NSFont *)fontObj
+...frame:(NSRect)frameRect
+...intValue:(int)anInt
+...keyEquivalent:(NSString *)charCode
+...length:(int)numBytes
+...point:(NSPoint)aPoint
+...stringValue:(NSString *)aString
+...tag:(int)anInt
+...target:(id)anObject
+...title:(NSString *)aString
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alloc&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;copy&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;init&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mutableCopy&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;new&lt;/code&gt; 开头的方法要注意，它们会改变ARC的行为。&lt;/p&gt;
+
+&lt;p&gt;以 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;set&lt;/code&gt; 开头的方法有特殊的意义，不要随意定义。
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;set&lt;/code&gt; 是属性默认的设置方法，如果函数不是为了设置类成员，则不要用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;set&lt;/code&gt; 开头，可用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setup&lt;/code&gt; 替代。
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get&lt;/code&gt; 和属性方法无关，但在 Cocoa 中，其标准行为是通过引用传值，而不是直接返回结果的。欲获取变量，直接以变量名为名，如：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;userInfomation&lt;/code&gt;，而不是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getUserInfomation&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;###存取方法（Accessor Methods）&lt;/p&gt;
+
+&lt;p&gt;存取方法是指用来获取和设置类属性值的方法，属性的不同类型，对应着不同的存取方法规范：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//属性是一个名词时的存取方法范式
+- (type)noun;
+- (void)setNoun:(type)aNoun;
+//例子
+- (NSString *)title;
+- (void)setTitle:(NSString *)aTitle;
+
+//属性是一个形容词时存取方法的范式
+- (BOOL)isAdjective;
+- (void)setAdjective:(BOOL)flag;
+//例子
+- (BOOL)isEditable;
+- (void)setEditable:(BOOL)flag;
+
+//属性是一个动词时存取方法的范式
+- (BOOL)verbObject;
+- (void)setVerbObject:(BOOL)flag;
+//例子
+- (BOOL)showsAlpha;
+- (void)setShowsAlpha:(BOOL)flag;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;命名存取方法时不要将动词转化为被动形式来使用：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//正确
+- (void)setAcceptsGlyphInfo:(BOOL)flag;
+- (BOOL)acceptsGlyphInfo;
+
+//错误，不要使用动词的被动形式
+
+- (void)setGlyphInfoAccepted:(BOOL)flag;
+- (BOOL)glyphInfoAccepted;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;can&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;should&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;will&lt;/code&gt;等词来协助表达存取方法的意思，但不要使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;do&lt;/code&gt;,和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;does&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//正确
+- (void)setCanHide:(BOOL)flag;
+- (BOOL)canHide;
+- (void)setShouldCloseDocument:(BOOL)flag;
+- (BOOL)shouldCloseDocument;
+
+//错误，不要使用&quot;do&quot;或者&quot;does&quot;
+- (void)setDoesAcceptGlyphInfo:(BOOL)flag;
+- (BOOL)doesAcceptGlyphInfo;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;为什么Objective-C中不适用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get&lt;/code&gt;前缀来表示属性获取方法？因为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get&lt;/code&gt;在Objective-C中通常只用来表示从函数指针返回值的函数：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//三个参数都是作为函数的返回值来使用的，这样的函数名可以使用&quot;get&quot;前缀
+- (void)getLineDash:(float *)pattern count:(int *)count phase:(float *)phase;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###命名代理（Delegate）&lt;/p&gt;
+
+&lt;p&gt;当特定的事件发生时，对象会触发它注册的委托方法。委托是Objective-C中常用的传递消息的方式。委托有它固定的命名范式。&lt;/p&gt;
+
+&lt;p&gt;一个委托方法的第一个参数是触发它的对象，第一个关键词是触发对象的类名，除非委托方法只有一个名为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sender&lt;/code&gt;的参数：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//第一个关键词为触发委托的类名
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row;
+- (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename;
+
+//当只有一个&quot;sender&quot;参数时可以省略类名
+- (BOOL)applicationOpenUntitledFile:(NSApplication *)sender;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;根据委托方法触发的时机和目的，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;should&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;will&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;did&lt;/code&gt;等关键词&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (void)browserDidScroll:(NSBrowser *)sender;
+
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window;、
+
+- (BOOL)windowShouldClose:(id)sender;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###集合操作类方法（Collection Methods）&lt;/p&gt;
+
+&lt;p&gt;有些对象管理着一系列其它对象或者元素的集合，需要使用类似“增删查改”的方法来对集合进行操作，这些方法的命名范式一般为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//集合操作范式
+- (void)addElement:(elementType)anObj;
+- (void)removeElement:(elementType)anObj;
+- (NSArray *)elements;
+
+//例子
+- (void)addLayoutManager:(NSLayoutManager *)obj;
+- (void)removeLayoutManager:(NSLayoutManager *)obj;
+- (NSArray *)layoutManagers;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意，如果返回的集合是无序的，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSSet&lt;/code&gt;来代替&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSArray&lt;/code&gt;。如果需要将元素插入到特定的位置，使用类似于这样的命名：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (void)insertLayoutManager:(NSLayoutManager *)obj atIndex:(int)index;
+- (void)removeLayoutManagerAtIndex:(int)index;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果管理的集合元素中有指向管理对象的指针，要设置成&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;weak&lt;/code&gt;类型以防止引用循环。&lt;/p&gt;
+
+&lt;p&gt;下面是SDK中&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSWindow&lt;/code&gt;类的集合操作方法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (void)addChildWindow:(NSWindow *)childWin ordered:(NSWindowOrderingMode)place;
+- (void)removeChildWindow:(NSWindow *)childWin;
+- (NSArray *)childWindows;
+- (NSWindow *)parentWindow;
+- (void)setParentWindow:(NSWindow *)window;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###命名函数（Functions）&lt;/p&gt;
+
+&lt;p&gt;在很多场合仍然需要用到函数，比如说如果一个对象是一个单例，那么应该使用函数来代替类方法执行相关操作。&lt;/p&gt;
+
+&lt;p&gt;函数的命名和方法有一些不同，主要是：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;函数名称一般带有缩写前缀，表示方法所在的框架。&lt;/li&gt;
+  &lt;li&gt;前缀后的单词以“驼峰”表示法显示，第一个单词首字母大写。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;函数名的第一个单词通常是一个动词，表示方法执行的操作：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;NSHighlightRect
+NSDeallocateObject
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果函数返回其参数的某个属性，省略动词：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;unsigned int NSEventMaskFromType(NSEventType type)
+float NSHeight(NSRect aRect)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果函数通过指针参数来返回值，需要在函数名中使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Get&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;const char *NSGetSizeAndAlignment(const char *typePtr, unsigned int *sizep, unsigned int *alignp)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;函数的返回类型是BOOL时的命名：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;BOOL NSDecimalIsNotANumber(const NSDecimal *decimal)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###命名属性和实例变量（Properties&amp;amp;Instance Variables）&lt;/p&gt;
+
+&lt;p&gt;属性和对象的存取方法相关联，属性的第一个字母小写，后续单词首字母大写，不必添加前缀。属性按功能命名成名词或者动词：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//名词属性
+@property (nonatomic, strong) NSString *title;
+
+//动词属性
+@property (nonatomic, assign) BOOL showsAlpha;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;属性也可以命名成形容词，这时候通常会指定一个带有&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;is&lt;/code&gt;前缀的get方法来提高可读性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;@property (nonatomic, assign, getter=isEditable) BOOL editable;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;命名实例变量，在变量名前加上&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt;前缀（&lt;em&gt;有些有历史的代码会将&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt;放在后面&lt;/em&gt;），其它和命名属性一样。不过，除了在初始化方法（&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;init&lt;/code&gt;、&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;initWithCoder&lt;/code&gt;等），&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dealloc&lt;/code&gt; 方法和自定义的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setter&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getter&lt;/code&gt;方法中，尽量避免使用变量名前面有下划线（&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_variable&lt;/code&gt;）直接访问实例变量。&lt;/p&gt;
+
+&lt;p&gt;一般来说，类需要对使用者隐藏数据存储的细节，所以不要将实例方法定义成公共可访问的接口。私有属性应该定义在类的实现文件的类的扩展 (匿名分类) 中。不允许在有名字的 category中定义私有属性，除非你扩展其他类。例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;@interface TXViewController ()
+@property (nonatomic, strong) UIView *bannerView;
+@end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;###命名常量（Constants）&lt;/p&gt;
+
+&lt;p&gt;如果要定义一组相关的常量，尽量使用枚举类型（enumerations），枚举类型的命名规则和函数的命名规则相同。
+建议使用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NS_ENUM&lt;/code&gt; 和 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NS_OPTIONS&lt;/code&gt; 宏来定义枚举类型，参见官方的 &lt;a href=&quot;https://developer.apple.com/library/ios/releasenotes/ObjectiveC/ModernizationObjC/AdoptingModernObjective-C/AdoptingModernObjective-C.html&quot;&gt;Adopting Modern Objective-C&lt;/a&gt; 一文：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//定义一个枚举
+typedef NS_ENUM(NSInteger, NSMatrixMode) {
+    NSRadioModeMatrix,
+    NSHighlightModeMatrix,
+    NSListModeMatrix,
+    NSTrackModeMatrix
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;定义bit map：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;typedef NS_OPTIONS(NSUInteger, NSWindowMask) {
+    NSBorderlessWindowMask      = 0,
+    NSTitledWindowMask          = 1 &amp;lt;&amp;lt; 0,
+    NSClosableWindowMask        = 1 &amp;lt;&amp;lt; 1,
+    NSMiniaturizableWindowMask  = 1 &amp;lt;&amp;lt; 2,
+    NSResizableWindowMask       = 1 &amp;lt;&amp;lt; 3
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;const&lt;/code&gt;定义浮点型或者单个的整数型常量，如果要定义一组相关的整数常量，应该优先使用枚举。&lt;/p&gt;
+
+&lt;p&gt;注意到一般由编译器定义的宏会在前后都有一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__&lt;/code&gt;，比如&lt;em&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__MACH__&lt;/code&gt;&lt;/em&gt;。&lt;/p&gt;
+
+&lt;p&gt;###命名通知（Notifications）&lt;/p&gt;
+
+&lt;p&gt;通知常用于在模块间传递消息，所以通知要尽可能地表示出发生的事件，通知的命名范式是：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[触发通知的类名] + [Did | Will] + [动作] + Notification
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;NSApplicationDidBecomeActiveNotification
+NSWindowDidMiniaturizeNotification
+NSTextViewDidChangeSelectionNotification
+NSColorPanelColorDidChangeNotification
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;##注释&lt;/p&gt;
+
+&lt;p&gt;读没有注释代码的痛苦你我都体会过，好的注释不仅能让人轻松读懂你的程序，还能提升代码的逼格。注意注释是为了让别人看懂，而不是仅仅你自己。&lt;/p&gt;
+
+&lt;p&gt;###文件注释&lt;/p&gt;
+
+&lt;p&gt;每一个文件都&lt;strong&gt;必须&lt;/strong&gt;写文件注释，文件注释通常包含&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;文件所在模块&lt;/li&gt;
+  &lt;li&gt;作者信息&lt;/li&gt;
+  &lt;li&gt;历史版本信息&lt;/li&gt;
+  &lt;li&gt;版权信息&lt;/li&gt;
+  &lt;li&gt;文件包含的内容，作用&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;一段良好文件注释的例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//
+//  TXAppDelegate.m
+//  txman_mvvm
+//  txmanios的应用代理实现
+//
+//  Created by 晓童 韩 on 16/1/11.
+//  Copyright © 2016年 晓童 韩. All rights reserved.
+//
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;文件注释的格式通常不作要求，能清晰易读就可以了，但在整个工程中风格要统一。&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;###代码注释&lt;/p&gt;
+
+&lt;p&gt;好的代码应该是“自解释”（self-documenting）的，但仍然需要详细的注释来说明参数的意义、返回值、功能以及可能的副作用。&lt;/p&gt;
+
+&lt;p&gt;方法、函数、类、协议、类别的定义都需要注释，推荐采用Apple的标准注释风格，好处是可以在引用的地方&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alt+点击&lt;/code&gt;自动弹出注释，非常方便。&lt;/p&gt;
+
+&lt;p&gt;有很多可以自动生成注释格式的插件，推荐使用&lt;a href=&quot;https://github.com/onevcat/VVDocumenter-Xcode&quot;&gt;VVDocumenter&lt;/a&gt;：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.github.com/onevcat/VVDocumenter-Xcode/master/ScreenShot.gif&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;一些良好的注释：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;/**
+ *  Create a new preconnector to replace the old one with given mac address.
+ *  NOTICE: We DO NOT stop the old preconnector, so handle it by yourself.
+ *
+ *  @param type       Connect type the preconnector use.
+ *  @param macAddress Preconnector's mac address.
+ */
+- (void)refreshConnectorWithConnectType:(IPCConnectType)type  Mac:(NSString *)macAddress;
+
+/**
+ *  Stop current preconnecting when application is going to background.
+ */
+- (void)stopRunning;
+
+/**
+ *  Get the COPY of cloud device with a given mac address.
+ *
+ *  @param macAddress Mac address of the device.
+ *
+ *  @return Instance of IPCCloudDevice.
+ */
+- (IPCCloudDevice *)getCloudDeviceWithMac:(NSString *)macAddress;
+
+// A delegate for NSApplication to handle notifications about app
+// launch and shutdown. Owned by the main app controller.
+@interface MyAppDelegate : NSObject {
+  ...
+}
+@end
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+	if ([SSKeychain rawLogin].isExist) {
+		// 如果用户名密码存在则使用OctoKit APIs去登陆
+		// something
+		} else {
+   		// 去到登陆页面
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;协议、代理的注释要明确说明其被触发的条件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;/** Delegate - Sent when failed to init connection, like p2p failed. */
+-(void)initConnectionDidFailed:(IPCConnectHandler *)handler;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;定义在头文件里的接口方法、属性（特别是数据模型的属性）必须要有注释！&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;##其他&lt;/p&gt;
+
+&lt;p&gt;###懒加载（Lazy Loading）&lt;/p&gt;
+
+&lt;p&gt;如果有必要，最好重写getter方法以实现资源的懒加载。&lt;/p&gt;
+
+&lt;p&gt;###init方法&lt;/p&gt;
+
+&lt;p&gt;init方法应该遵循Apple生成代码模板的命名规则。返回类型应该使用instancetype而不是id。例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (instancetype)init {
+	self = [super init];
+	if (self) {
+		// ...
+	}
+	return self;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###类构造方法&lt;/p&gt;
+
+&lt;p&gt;当类构造方法被使用时，它应该返回类型是instancetype而不是id。这样确保编译器正确地推断结果类型。例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;@interface Airplane
++ (instancetype)airplaneWithType:(TXAirplaneType)type;
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###条件语句&lt;/p&gt;
+
+&lt;p&gt;条件语句体应该总是被大括号包围。&lt;/p&gt;
+
+&lt;p&gt;推荐：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;if (!error) {
+    return success;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不推荐:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;if (!error)
+    return success;
+//以及
+if (!error) return success;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###不要使用new方法&lt;/p&gt;
+
+&lt;p&gt;尽管很多时候能用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;new&lt;/code&gt;代替&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alloc init&lt;/code&gt;方法，但这可能会导致调试内存时出现不可预料的问题。Cocoa的规范就是使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alloc init&lt;/code&gt;方法，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;new&lt;/code&gt;会让一些读者困惑。&lt;/p&gt;
+
+&lt;p&gt;####import和#include&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#import&lt;/code&gt;是Cocoa中常用的引用头文件的方式，它能自动防止重复引用文件，什么时候使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#import&lt;/code&gt;，什么时候使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#include&lt;/code&gt;呢？&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;当引用的是一个Objective-C或者Objective-C++的头文件时，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#import&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;当引用的是一个C或者C++的头文件时，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#include&lt;/code&gt;，这时必须要保证被引用的文件提供了保护域（#define guard）。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;#import &amp;lt;Cocoa/Cocoa.h&amp;gt;
+#include &amp;lt;CoreFoundation/CoreFoundation.h&amp;gt;
+#import &quot;GTMFoo.h&quot;
+#include &quot;base/basictypes.h&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;为什么不全部使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#import&lt;/code&gt;呢？主要是为了保证代码在不同平台间共享时不出现问题。&lt;/p&gt;
+
+&lt;p&gt;###引用框架的根头文件&lt;/p&gt;
+
+&lt;p&gt;上面提到过，每一个框架都会有一个和框架同名的头文件，它包含了框架内接口的所有引用，在使用框架的时候，应该直接引用这个根头文件，而不是其它子模块的头文件，即使是你只用到了其中的一小部分，编译器会自动完成优化的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//正确，引用根头文件
+#import &amp;lt;Foundation/Foundation.h&amp;gt;
+
+//错误，不要单独引用框架内的其它头文件
+#import &amp;lt;Foundation/NSArray.h&amp;gt;
+#import &amp;lt;Foundation/NSString.h&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###BOOL的使用&lt;/p&gt;
+
+&lt;p&gt;BOOL在Objective-C中被定义为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;signed char&lt;/code&gt;类型，这意味着一个BOOL类型的变量不仅仅可以表示&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YES&lt;/code&gt;(1)和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NO&lt;/code&gt;(0)两个值，所以永远&lt;strong&gt;不要&lt;/strong&gt;将BOOL类型变量直接和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YES&lt;/code&gt;比较：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//错误，无法确定|great|的值是否是YES(1)，不要将BOOL值直接与YES比较
+BOOL great = [foo isGreat];
+if (great == YES)
+  // ...be great!
+
+//正确
+BOOL great = [foo isGreat];
+if (great)
+  // ...be great!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;同样的，也不要将其它类型的值作为BOOL来返回，这种情况下，BOOL变量只会取值的最后一个字节来赋值，这样很可能会取到0（NO）。但是，一些逻辑操作符比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;amp;&amp;amp;&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;||&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;!&lt;/code&gt;的返回是可以直接赋给BOOL的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//错误，不要将其它类型转化为BOOL返回
+- (BOOL)isBold {
+  return [self fontTraits] &amp;amp; NSFontBoldTrait;
+}
+- (BOOL)isValid {
+  return [self stringValue];
+}
+
+//正确
+- (BOOL)isBold {
+  return ([self fontTraits] &amp;amp; NSFontBoldTrait) ? YES : NO;
+}
+
+//正确，逻辑操作符可以直接转化为BOOL
+- (BOOL)isValid {
+  return [self stringValue] != nil;
+}
+- (BOOL)isEnabled {
+  return [self isValid] &amp;amp;&amp;amp; [self isBold];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另外BOOL类型可以和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_Bool&lt;/code&gt;,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bool&lt;/code&gt;相互转化，但是&lt;strong&gt;不能&lt;/strong&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Boolean&lt;/code&gt;转化。&lt;/p&gt;
+
+&lt;p&gt;###在init和dealloc中不要用存取方法访问实例变量&lt;/p&gt;
+
+&lt;p&gt;当&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;init&lt;/code&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dealloc&lt;/code&gt;方法被执行时，类的运行时环境不是处于正常状态的，使用存取方法访问变量可能会导致不可预料的结果，因此应当在这两个方法内直接访问实例变量。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//正确，直接访问实例变量
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    _bar = [[NSMutableString alloc] init];
+  }
+  return self;
+}
+- (void)dealloc {
+  [_bar release];
+  [super dealloc];
+}
+
+//错误，不要通过存取方法访问
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    self.bar = [NSMutableString string];
+  }
+  return self;
+}
+- (void)dealloc {
+  self.bar = nil;
+  [super dealloc];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###按照定义的顺序释放资源&lt;/p&gt;
+
+&lt;p&gt;在类或者Controller的生命周期结束时，往往需要做一些扫尾工作，比如释放资源，停止线程等，这些扫尾工作的释放顺序应当与它们的初始化或者定义的顺序保持一致。这样做是为了方便调试时寻找错误，也能防止遗漏。&lt;/p&gt;
+
+&lt;p&gt;###保证NSString在赋值时被复制&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSString&lt;/code&gt;非常常用，在它被传递或者赋值时应当保证是以复制（copy）的方式进行的，这样可以防止在不知情的情况下String的值被其它对象修改。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (void)setFoo:(NSString *)aFoo {
+  _foo = [aFoo copy];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###使用NSNumber的语法糖&lt;/p&gt;
+
+&lt;p&gt;使用带有&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@&lt;/code&gt;符号的语法糖来生成NSNumber对象能使代码更简洁：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;NSNumber *fortyTwo = @42;
+NSNumber *piOverTwo = @(M_PI / 2);
+enum {
+  kMyEnum = 2;
+};
+NSNumber *myEnum = @(kMyEnum);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###nil检查&lt;/p&gt;
+
+&lt;p&gt;因为在Objective-C中向nil对象发送命令是不会抛出异常或者导致崩溃的，只是完全的“什么都不干”，所以，只在程序中使用nil来做逻辑上的检查。&lt;/p&gt;
+
+&lt;p&gt;另外，不要使用诸如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nil == Object&lt;/code&gt;或者&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Object == nil&lt;/code&gt;的形式来判断。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//正确，直接判断
+if (!objc) {
+	...
+}
+
+//错误，不要使用nil == Object的形式
+if (nil == objc) {
+	...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###黄金大道&lt;/p&gt;
+
+&lt;p&gt;在使用条件语句编程时，代码的左边距应该是一条“黄金”或者“快乐”的大道。 也就是说，不要嵌套 if 语句。使用多个 return 可以避免增加循环的复杂度，并提高代码的可读性。因为方法的重要部分没有嵌套在分支里面，并且你可以很清楚地找到相关的代码。&lt;/p&gt;
+
+&lt;p&gt;推荐:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (void)someMethod {
+	if (![someOther boolValue]) {
+		return;
+	}
+	//Do something important
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不推荐:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (void)someMethod {
+	if ([someOther boolValue]) {
+		//Do something important
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;###点分语法的使用&lt;/p&gt;
+
+&lt;p&gt;不要用点分语法来调用方法，只用来访问属性。这样是为了防止代码可读性问题。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;//正确，使用点分语法访问属性
+NSString *oldName = myObject.name;
+myObject.name = @&quot;Alice&quot;;
+
+//错误，不要用点分语法调用方法
+NSArray *array = [NSArray arrayWithObject:@&quot;hello&quot;];
+NSUInteger numberOfItems = array.count;
+array.release;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考：&lt;a href=&quot;https://github.com/lettleprince/Objective-C-Style-Guide/blob/master/Objective-C代码规范.md&quot;&gt;Objective-C代码规范&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="Objective-C" /><summary type="html">Objective-C是一门面向对象的动态编程语言，主要用于编写iOS和Mac应用程序。关于Objective-C的编码规范，苹果和谷歌以及raywenderlich都已经有很好的总结：</summary></entry><entry><title type="html">CocoaPods一些使用技巧</title><link href="https://kiritobeater.github.io/CocoaPods%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/" rel="alternate" type="text/html" title="CocoaPods一些使用技巧" /><published>2016-03-09T22:23:00+00:00</published><updated>2016-03-09T22:23:00+00:00</updated><id>https://kiritobeater.github.io/CocoaPods%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7</id><content type="html" xml:base="https://kiritobeater.github.io/CocoaPods%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">&lt;p&gt;关于CocoaPods的一些略微高级一些的使用技巧。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Mac OSX 10.11 以后升级CocoaPods权限问题. 1.升级Gem:sudo gem update –system 2. 安装Cocoapods：sudo gem install -n /usr/local/bin cocoapods&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;建立Podfile文件&lt;/p&gt;
+
+    &lt;p&gt;建议init后直接执行pod install，然后在打开的Xcode中修改Podfile文件。&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;指定平台版本&lt;/p&gt;
+
+    &lt;p&gt;pod init会自动生成，解注释即可。&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  platform :ios, '8.0'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用Dynamic Frameworks代替Static Libraries&lt;/p&gt;
+
+    &lt;p&gt;通过标志use_frameworks!就可知开启这个功能。如果需要使用Swift的库，就必须加上这个标志了。&lt;/p&gt;
+
+    &lt;p&gt;同上，pod init会自动生成，解注释即可。&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  use_frameworks!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;指定target的依赖库&lt;/p&gt;
+
+    &lt;p&gt;pod init自动生成的格式。&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  target :ZipApp do   
+      pod 'SSZipArchive'
+  end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;排除target&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  target 'Artsy Tests', :exclusive =&amp;gt; true do   
+      pod 'FBSnapshotTestCase', '1.4'
+  end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;指定源&lt;/p&gt;
+
+    &lt;p&gt;官方源的速度略慢。可以通过使用国内源。&lt;/p&gt;
+
+    &lt;p&gt;也可以通过指定源使用私有Pod。&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  source 'https://github.com/CocoaPods/Specs.git'   //官方源
+  source 'https://git.coding.net/hging/Specs.git'   //coding源
+  source 'http://git.oschina.net/akuandev/Specs'    //oschina源
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;抑制警告&lt;/p&gt;
+
+    &lt;p&gt;inhibit_warnings参数能够有效的抑制CocoaPods引入的第三方代码库产生的warning。&lt;/p&gt;
+
+    &lt;p&gt;全部指定&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  inhibit_all_warnings!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;针对指定。&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod 'ReactiveCocoa', '~&amp;gt; 2.4', :inhibit_warnings =&amp;gt; true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用 master 分支&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod 'ARAnalytics/Mixpanel', :git =&amp;gt; 'https://github.com/gowalla/AFNetworking.git'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;指定branch&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod 'Reachability', :git =&amp;gt; 'https://github.com/gowalla/AFNetworking.git', :branch =&amp;gt; 'dev'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;指定tag&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod 'AFNetworking', :git =&amp;gt; 'https://github.com/gowalla/AFNetworking.git', :tag =&amp;gt; '0.7.0'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;指定commit&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod 'ARTiledImageView', :git =&amp;gt; 'https://github.com/dblockARTiledImageView', :commit =&amp;gt; '1a31b864d1d56b1aaed0816c10bb55cf2e078bb8'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用子库&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod 'QueryKit/Attribute'
+  pod 'QueryKit', :subspecs =&amp;gt; ['Attribute', 'QuerySet'] //多个子库
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用本地代码&lt;/p&gt;
+
+    &lt;p&gt;通过:path可以指定本地代码，不过需要确保目录包含podspec文件。
+  在实际开发中使用私有Pod时，可以先使用本地代码，每次私有Pod修改后，可以直接pod update ‘私有pod’ 更新，开发完成后再更新私有pod版本。&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod 'AFNetworking', :path =&amp;gt; '~/Documents/AFNetworking'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;指定xcodeproj&lt;/p&gt;
+
+    &lt;p&gt;默认会使用Podfile文件同级目录下第一个xcodeproj，但也可以指定&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  xcodeproj 'MyProject'
+
+  target :test do   
+      # This Pods library links with a target in another project.
+      xcodeproj 'TestProject'
+  end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;指定连接的target&lt;/p&gt;
+
+    &lt;p&gt;如果不显式指定连接的target，Pods会默认连接project的第一个target。如果需要，可以使用link_with指定连接一个或多个target&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  link_with 'MyApp', 'MyOtherApp'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;指定环境&lt;/p&gt;
+
+    &lt;p&gt;如下只会在Debug环境下面加入PonyDebugger库到工程。&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod 'PonyDebugger', :configuration =&amp;gt; ['Debug']
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;指定target的配置文件&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  xcodeproj 'TestProject', 'Mac App Store' =&amp;gt; :release, 'Test' =&amp;gt; :debug
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;加快pod install/update 速度&lt;/p&gt;
+
+    &lt;p&gt;使用CocoaPods来添加第三方类库，无论是执行pod install还是pod updat很多时候都卡在了Analyzing dependencies不动，这是更新本地的pod spec所以文件导致的。通过–no-repo-update标志可以不更新本地pod spec索引。当然首次install不应该添加这个标志，后续修改Podfile的时候可以适当使用，加快pod速度。&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod install --no-repo-update   
+  pod update --no-repo-update  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;输出详细日志&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pod update --verbose
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;参考：&lt;a href=&quot;http://www.cocoachina.com/ios/20150916/13384.html&quot;&gt;CocoaChina：CocoaPods的一些略为高级一丁点的使用&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="Tool" /><summary type="html">关于CocoaPods的一些略微高级一些的使用技巧。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://kiritobeater.github.io/assets/images/markdown.jpg" /><media:content medium="image" url="https://kiritobeater.github.io/assets/images/markdown.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
