@@ -1,8 +1,5 @@
 ---
 title: Objective-C代码规范
-layout: post
-date: 2016-05-03 23:07
-category: blog
 tag:
 - Objective-C
 ---

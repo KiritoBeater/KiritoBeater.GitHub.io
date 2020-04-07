@@ -1,13 +1,7 @@
 ---
 title: "CocoaPods一些使用技巧"
-layout: post
-date: 2016-03-09 22:23
-category: blog
-image: /assets/images/markdown.jpg
-headerImage: false
 tag:
 - Tool
-category: blog
 ---
 
 关于CocoaPods的一些略微高级一些的使用技巧。

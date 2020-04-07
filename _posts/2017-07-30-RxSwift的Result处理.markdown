@@ -1,8 +1,5 @@
 ---
 title: RxSwift的Result处理
-layout: post
-date: 2017-07-30 11:05
-category: blog
 tag:
 - iOS
 - RxSwift

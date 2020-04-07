@@ -1,8 +1,5 @@
 ---
 title: iOS及React Native好用的第三方开源库
-layout: post
-date: 2016-03-09 22:23
-category: blog
 tag:
 - Objective-C
 - Swift

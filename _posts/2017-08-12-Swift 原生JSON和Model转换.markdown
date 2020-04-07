@@ -1,8 +1,5 @@
 ---
 title: "Swift 原生JSON和Model转换"
-layout: post
-date: 2017-08-12 22:00
-category: blog
 tag:
 - Swift
 ---
