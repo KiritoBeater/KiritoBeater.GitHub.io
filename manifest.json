@@ -1,9 +1,12 @@
+---
+layout: compress
+---
 {
-    "name": "流星企盼|Blog",
-    "short_name": "流星企盼|Blog",
+    "name": "{{ site.title }}",
+    "short_name": "{{ site.title }}",
     "display": "standalone",
     "background_color": "#fff",
-    "description": "a Blog App",
+    "description": "{{ site.description }}",
     "theme_color": "white",
     "icons": [{
       "src": "assets/images/favicon/favicon-196x196.png",

@@ -1,14 +1,6 @@
 # main text of home
-name: 流星企盼
-bio: 临渊羡鱼，不如退而结网
-
-# twitter summary info
-description: 临渊羡鱼，不如退而结网
-
-# if it's an external image, update below for true
-# better with square images
-external-image: false
-picture: assets/images/profile.jpg
+title: 流星企盼|Blog
+author: 流星企盼
 
 # If you want to include your resume, set to true
 # and specify source (external or local).
@@ -52,15 +44,6 @@ github: KiritoBeater
 # vimeo: myvimeo
 # lanyrd: mylanyrd
 email: 1353137283@qq.com
-
-authors:
-    KiritoBeater:
-        name: 流星企盼
-        bio: 临渊羡鱼，不如退而结网.
-        external-image: false
-        picture: assets/images/profile.jpg
-        twitter: kirotobeater
-
 
 # do you want a larger site? change the option below
 # options: [normal, large] | default: normal
@@ -118,6 +101,8 @@ plugins:
   - jekyll-gist
   - jekyll-feed
   - jemoji
+  - jekyll-avatar
+  - jekyll-github-metadata
 
 jekyll-mentions:
     base_url: https://github.com
@@ -127,5 +112,5 @@ compress_html:
         envs:
         - development
         - stage
-
+include: ["manifest.json"]
 exclude: ["travis.sh", "Rakefile", "README.md", "Gemfile", "Gemfile.lock", "FAQ.md", "vendor"]
