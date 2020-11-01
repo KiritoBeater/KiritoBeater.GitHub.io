@@ -74,7 +74,8 @@ plugins:
   - jemoji
   - jekyll-avatar
   - jekyll-github-metadata
-
+  - jekyll-optional-front-matter
+  
 jekyll-mentions:
     base_url: https://github.com
 

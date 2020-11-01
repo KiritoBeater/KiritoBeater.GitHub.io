@@ -1,5 +1,4 @@
 ---
-title: Objective-C代码规范
 tag:
 - Objective-C
 ---

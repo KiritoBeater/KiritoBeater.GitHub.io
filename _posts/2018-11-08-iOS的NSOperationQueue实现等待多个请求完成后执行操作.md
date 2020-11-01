@@ -1,5 +1,4 @@
 ---
-title: NSOperationQueue实现等待多个请求完成后执行操作
 tag:
 - iOS
 - Objective-C

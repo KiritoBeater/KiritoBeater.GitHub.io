@@ -1,5 +1,4 @@
 ---
-title: RxSwift的Result处理
 tag:
 - iOS
 - RxSwift

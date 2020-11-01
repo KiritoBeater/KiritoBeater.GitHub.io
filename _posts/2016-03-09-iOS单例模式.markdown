@@ -1,5 +1,4 @@
 ---
-title: iOS单例模式
 tag:
 - Objective-C
 - Swift

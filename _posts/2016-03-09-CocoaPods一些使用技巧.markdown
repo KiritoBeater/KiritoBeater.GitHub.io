@@ -1,5 +1,4 @@
 ---
-title: "CocoaPods一些使用技巧"
 tag:
 - Tool
 ---

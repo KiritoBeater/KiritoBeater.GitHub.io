@@ -1,5 +1,4 @@
 ---
-title: "Git 日常命令"
 tag:
 - Git
 ---
