@@ -1,4 +1,5 @@
 ---
+title: Swift 原生Json和Model转换
 tag:
 - Swift
 ---
@@ -195,4 +196,3 @@ struct UserList: Codable {
 #### 参考:
 * [Using JSON with Custom Types](https://developer.apple.com/documentation/foundation/archives_and_serialization/using_json_with_custom_types) 附 [Apple Playground](https://docs-assets.developer.apple.com/published/3025f0dbf0/UsingJSONwithCustomTypes.zip)
 * [Swift 4 JSON 解析指南](https://bignerdcoding.com/archives/37.html)
-

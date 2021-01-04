@@ -1,4 +1,5 @@
 ---
+title: RxSwift的Result处理
 tag:
 - iOS
 - RxSwift
@@ -45,4 +46,3 @@ _ = button.rx.tap.flatMapFirst { netRequestObservable }.mapResult()
         }
     )
 ```
-
