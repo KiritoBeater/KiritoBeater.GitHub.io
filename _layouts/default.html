@@ -25,8 +25,15 @@ layout: compress
     <script>
         var _hmt = _hmt || [];
         (function() {
+        var hmstr = "";
+        if (window.location.host === "kiritobeater.github.io") {
+            hmstr = "b1215246442211044a743c202d495922";
+        } else if (window.location.host === "kiritobeater.gitee.io") {
+            hmstr = "4087b6e3d69cd29da09a74b3d98ca49d";
+        }
+
         var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?b1215246442211044a743c202d495922";
+        hm.src = "https://hm.baidu.com/hm.js?" + hmstr;
         var s = document.getElementsByTagName("script")[0]; 
         s.parentNode.insertBefore(hm, s);
         })();
