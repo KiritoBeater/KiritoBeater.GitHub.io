@@ -1,0 +1,247 @@
+---
+title: iOS单例模式
+category: blog
+tag:
+- Objective-C
+- Swift
+---
+
+不说单例模式，只是总结下实现。
+
+## Swift 单例模式
+
+### 全局变量方法
+
+    private let sharedKraken = TheOneAndOnlyKraken()
+    class TheOneAndOnlyKraken {
+        class var sharedInstance: TheOneAndOnlyKraken {
+            return sharedKraken
+        }
+    }
+
+
+### 单行单例法
+
+    class TheOneAndOnlyKraken {
+        static let sharedInstance = TheOneAndOnlyKraken()
+    }
+
+使用时不要忘记设置初始化方法为私有
+
+    class TheOneAndOnlyKraken {
+        static let sharedInstance = TheOneAndOnlyKraken()
+        private init() {} //This prevents others from using the default '()' initializer for this class.
+    }
+
+
+## Objective-C 单例模式
+
+### ARC单例模式
+
+    //.h文件
+    #import <Foundation/Foundation.h>
+    @interface Singleton : NSObject
+    //单例方法
+    +(instancetype)sharedSingleton;
+    @end
+
+    //.m文件
+    #import "Singleton.h"
+    @implementation Singleton
+    //全局变量
+    static id _instance = nil;
+    //单例方法
+    +(instancetype)sharedSingleton{
+        return [[self alloc] init];
+    }
+    ////alloc会调用allocWithZone:
+    +(instancetype)allocWithZone:(struct _NSZone *)zone{
+        //只进行一次
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _instance = [super allocWithZone:zone];
+        });
+        return _instance;
+    }
+    //初始化方法
+    - (instancetype)init{
+        // 只进行一次
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _instance = [super init];
+        });
+        return _instance;
+    }
+    //copy在底层 会调用copyWithZone:
+    - (id)copyWithZone:(NSZone *)zone{
+        return  _instance;
+    }
+    + (id)copyWithZone:(struct _NSZone *)zone{
+        return  _instance;
+    }
+    + (id)mutableCopyWithZone:(struct _NSZone *)zone{
+        return _instance;
+    }
+    - (id)mutableCopyWithZone:(NSZone *)zone{
+        return _instance;
+    }
+    @end
+
+
+### MRC中的单例实现
+
+    //.h文件
+    #import <Foundation/Foundation.h>
+    //单例方法
+    @interface Singleton : NSObject
+    + (instancetype)sharedSingleton;
+    @end
+
+    //.m文件
+    #import "Singleton.h"
+    @implementation Singleton
+    //全局变量
+    static id _instance = nil;
+    //单例方法
+    +(instancetype)sharedSingleton{
+        //系统的大多数类方法都有做autorelease，所以我们也需要做一下
+         return [[[self alloc] init] autorelease];
+    }
+    //alloc会调用allocWithZone:
+    +(instancetype)allocWithZone:(struct _NSZone *)zone{
+        //只进行一次
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _instance = [super allocWithZone:zone];
+        });
+        return _instance;
+    }
+    //初始化方法
+    -(instancetype)init{
+        // 只进行一次
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _instance = [super init];
+        });
+        return _instance;
+    }
+    - (oneway void)release{
+        //什么都不做 保证单例对象不被销毁
+    }
+    //返回本身 保证只有一个单例对象
+    - (instancetype)retain{
+        return _instance;
+    }
+    //计数器为1 保证只有一个单例对象
+    - (NSUInteger)retainCount{
+        return 1;
+    }
+    //copy在底层 会调用copyWithZone:
+    + (id)copyWithZone:(struct _NSZone *)zone{
+        return  _instance;
+    }
+    - (id)copyWithZone:(NSZone *)zone{
+        return _instance;
+    }
+    + (id)mutableCopyWithZone:(struct _NSZone *)zone{
+        return _instance;
+    }
+    - (id)mutableCopyWithZone:(NSZone *)zone{
+        return _instance;
+    }
+    @end
+
+### 整理成了宏定义(ARC,MRC)
+
+    // ## : 连接字符串和参数
+    #define singleton_h(name) + (instancetype)shared##name;
+    #if __has_feature(objc_arc) // ARC
+    #define singleton_m(name) \
+    static id _instance; \
+    + (id)allocWithZone:(struct _NSZone *)zone \
+       { \
+         static dispatch_once_t onceToken; \
+         dispatch_once(&onceToken, ^{ \
+        _instance = [super allocWithZone:zone]; \
+       }); \
+      return _instance; \
+       } \
+    + (instancetype)shared##name \
+       { \
+       static dispatch_once_t onceToken; \
+       dispatch_once(&onceToken, ^{ \
+       _instance = [[self alloc] init]; \
+       });\
+       return _instance; \
+      } \
+    + (id)copyWithZone:(struct _NSZone *)zone \
+      { \
+      return _instance; \
+      }
+    #else // 非ARC
+    #define singleton_m(name) \
+    static id _instance; \
+    + (id)allocWithZone:(struct _NSZone *)zone \
+      { \
+      static dispatch_once_t onceToken; \
+      dispatch_once(&onceToken, ^{ \
+      _instance = [super allocWithZone:zone]; \
+      }); \
+      return _instance; \
+      } \
+       \
+    + (instancetype)shared##name \
+         { \
+         static dispatch_once_t onceToken; \
+         dispatch_once(&onceToken, ^{ \
+         _instance = [[self alloc] init]; \
+         }); \
+          return _instance; \
+         } \
+         \
+    - (oneway void)release \
+        { \
+           \
+        } \
+         \
+    - (id)autorelease \
+      { \
+       return _instance; \
+      } \
+        \
+    - (id)retain \
+      { \
+       return _instance; \
+      } \
+         \
+    - (NSUInteger)retainCount \
+      { \
+      return 1; \
+      } \
+        \
+    + (id)copyWithZone:(struct _NSZone *)zone \
+      { \
+       return _instance; \
+      }
+    #endif
+
+
+### 宏定义使用
+
+#### .h 文件
+
+    singleton_h(SoundTool)
+
+#### .m 文件
+
+    singleton_m(SoundTool)
+    - (instancetype)init {
+        if (self = [super init])
+        {
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                // 加载资源
+            });
+        }
+        return self;
+    }

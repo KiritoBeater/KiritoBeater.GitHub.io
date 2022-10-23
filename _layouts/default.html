@@ -13,6 +13,12 @@ layout: compress
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name=author content="{{ site.title }}">
 
+    <meta name="theme-color" content="white">
+    <meta name="apple-mobile-web-app-title" content="{{ site.title }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <meta name="baidu-site-verification" content="code-57zcaFpHc2" />
+
     {% seo %}
 
     {% include favicon.html %}
@@ -20,8 +26,10 @@ layout: compress
     <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}">
     <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.url }}{{ "/feed.xml" }}" />
 
-    <script src="https://kit.fontawesome.com/d9b09040a7.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/d9b09040a7.js" crossorigin="anonymous"></script> -->
 
+    <link rel="manifest" href="{{ site.url }}{{ "/manifest.json" }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/github-markdown-css/4.0.0/github-markdown.min.css" >
     <style>
     
     {% if site.dark-theme == "auto" %}
@@ -39,7 +47,22 @@ layout: compress
 
     {{ scss_sheet | scssify }}
     </style>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+        var hmstr = "";
+        if (window.location.host === "kiritobeater.github.io") {
+            hmstr = "a21c81af7acf36061716d74657e07cd0";
+        } else if (window.location.host === "kiritobeater.gitee.io") {
+            hmstr = "4087b6e3d69cd29da09a74b3d98ca49d";
+        }
 
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + hmstr;
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body>
     <div class="wrapper-{% if site.width == "normal" %}normal{% elsif site.width == "large" %}large{% endif %}">
