@@ -1,0 +1,46 @@
+---
+title: iOS系统自带调试悬浮窗
+category: blog
+tag:
+- iOS
+---
+
+### iOS 系统自带调试悬浮窗UIDebuggingInformationOverlay
+
+> 我们经常使用各种调试工具，或者开源库来支持悬浮窗调试信息，但苹果的私有方法就提供了调试窗口
+
+#### 展示调试悬浮窗
+
+```swift
+#if DEBUG
+    let overlayClass = NSClassFromString("UIDebuggingInformationOverlay") as? UIWindow.Type
+    _ = overlayClass?.perform(NSSelectorFromString("prepareDebuggingOverlay"))
+#endif
+```
+
+#### 能做什么
+##### ViewHierarchy
+
+> 查看window 的 View 嵌套关系。点击右侧感叹号可以查看View的一些信息。并且可以控制View在屏幕上显示的透明度。
+
+##### VC Hierarchy
+
+> 查看激活的 ViewController 的 childrenViewCotroller 的结构树和相关属性
+
+##### Ivar Explorer
+
+> 查看 UIApplication 的成员属性
+
+##### Measure
+
+> 测量组件大小。选择垂直还是水平方式，然后手指在悬浮窗外的屏幕上拖动即可。
+
+##### Spec Compare
+
+> 效果对比。从相册读取一个图片（你必须在info.plist 先配置相册权限NSPhotoLibraryUsageDescription）和当前界面对比。手指在屏幕（悬浮窗外部）上下滑动，可以改变图片等透明度。双击退出。
+
+##### System Color Audit
+
+> 还知道这个怎么用。
+
+参考：[震惊！iOS 系统居然自带悬浮窗口调试工具 —— Jinkey 原创](http://www.jianshu.com/p/736353b5cfaf?utm_campaign=hugo&utm_medium=reader_share&utm_content=note&utm_source=weixin-friends&from=singlemessage&isappinstalled=1)
